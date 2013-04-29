@@ -1,0 +1,21 @@
+<% if user_signed_in? %>
+	<h2>Welcome to PlaceTags</h2>
+	<h3>Please select the atlas you want to work on</h3>
+	<table>
+		<thead>
+			<tr>
+				<th>Name</th>
+				<th>Created</th>
+			</tr>
+		</thead>
+			<% @atlases.each do |a| %>
+				<tr>
+					<td><%= link_to a.name, atlas_path(a) %> </td>
+					<td><%= a.created_at.strftime("%B %d, %Y") %></td>
+				</tr>
+			<% end %>
+	</table>
+<% else %>
+	<%= "Please " %>
+	<%= link_to "sign in", new_user_session_path %>
+<% end %>
