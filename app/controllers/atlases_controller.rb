@@ -5,7 +5,6 @@ class AtlasesController < ApplicationController
 	def new
 		@atlas = Atlas.new
 		@atlas.user_id = current_user.id #Is this valid?!?!?
-		@atlas.save
 		respond_to do |format|
 			format.html
 			format.json { render json: @user }
@@ -13,6 +12,7 @@ class AtlasesController < ApplicationController
 	end
 	def create
 		@atlas = Atlas.new(params[:atlas])
+		@atlas.save
 		if request.post?
 			respond_to do |format|
 				format.html { redirect_to @atlas }
