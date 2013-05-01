@@ -1,0 +1,18 @@
+<%= form_for @atlas do |f| %>
+	<div class="control-group">
+		<%= f.label :name, :class => 'control-label' %>
+		<div class="controls">
+			<%= f.text_field :name, :class => 'text_field' %>
+		</div>
+	</div>
+	<%= f.fields_for :sizes do |s| %>
+		<div class="control-group">
+			<%= s.label :label, "Size Level " + 10.to_s %>
+				<div class="controls">
+					<%= s.text_field :label, :class => 'text_field' %>
+							<%-# i += 1 %>
+				</div>
+		</div>
+	<% end %>
+	<%= f.submit "Create Atlas" %>
+<% end %>

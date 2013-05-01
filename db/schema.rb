@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20130429205433) do
+ActiveRecord::Schema.define(:version => 20130430171229) do
 
   create_table "atlases", :force => true do |t|
     t.integer  "user_id"
@@ -28,6 +28,9 @@ ActiveRecord::Schema.define(:version => 20130429205433) do
     t.integer  "event_id"
     t.integer  "tag_id"
   end
+
+# Could not dump table "sizes" because of following StandardError
+#   Unknown type 'symbol' for column 'label'
 
   create_table "tags", :force => true do |t|
     t.datetime "created_at", :null => false
