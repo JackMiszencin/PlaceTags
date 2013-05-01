@@ -9,8 +9,8 @@ development:
   database: PlaceTags_development
   pool: 5
   timeout: 5000
-  username: jack
-  password: marrakech
+  username: ptadmin
+  password: bangaluru
 
 # Warning: The database defined as "test" will be erased and
 # re-generated from your development database when you run "rake".
@@ -21,5 +21,5 @@ test:
   database: PlaceTags_test
   pool: 5
   timeout: 5000
-  username: jack
-  password: marrakech
+  username: ptadmin
+  password: bangaluru
