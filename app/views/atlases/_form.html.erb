@@ -6,13 +6,17 @@
 		</div>
 	</div>
 	<%= f.fields_for :sizes do |s| %>
-		<div class="control-group">
-			<%= s.label :label, "Size Level " + 10.to_s %>
-				<div class="controls">
-					<%= s.text_field :label, :class => 'text_field' %>
-							<%-# i += 1 %>
+		<%= 10.times do %>
+			<%- i = 10 %>
+				<div class="control-group">
+					<%= s.label :label, "Size Level " + 10.to_s %>
+						<div class="controls">
+							<%= s.hidden_field :level, :value => (11-i) %>
+							<%= s.text_field :label, :class => 'text_field' %>
+						</div>
 				</div>
-		</div>
+			<%- i -= 1 %>
+		<% end %>
 	<% end %>
 	<%= f.submit "Create Atlas" %>
 <% end %>

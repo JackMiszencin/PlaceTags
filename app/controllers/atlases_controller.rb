@@ -5,6 +5,7 @@ class AtlasesController < ApplicationController
 	def new
 		@atlas = Atlas.new
 		@atlas.user_id = current_user.id #Is this valid?!?!?
+		@atlas.save
 		respond_to do |format|
 			format.html
 			format.json { render json: @user }

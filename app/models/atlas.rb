@@ -4,13 +4,13 @@ class Atlas < ActiveRecord::Base
 	has_many :sizes
 	accepts_nested_attributes_for :sizes, :allow_destroy => true
   
-  after_initialize :init
-  	def init
-  		for i in (1..10)
-  			s = Size.new
-  			s.level = i
-  			s.label = :blank
-  			self.sizes << s
-  		end
-  	end
+#  after_initialize :init
+#  	def init
+#  		for i in (1..10)
+#  			s = Size.new
+#  			s.level = i
+#  			s.label = :blank
+#  			self.sizes << s
+#  		end
+#  	end
 end
