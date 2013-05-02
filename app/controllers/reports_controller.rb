@@ -5,18 +5,20 @@ class ReportsController < ApplicationController
 	def new
 		@atlas = Atlas.find(params[:atlas_id])
 		@report = Report.new
-		@report.save
 		respond_to do |format|
 			format.html # new.html.erb
 			format.json { render json: @report }
 		end
 	end
+
 	def create
 		@report = Report.new(params[:report])
 		@report.save
 		if request.post?
+			@report.event_check
+			@report.save
 			respond_to do |format|
-				format.html { redirect_to atlas_report_path(@report) }
+				format.html { redirect_to atlas_report_path(params[:atlas_id], @report.id) }
 				format.json {render json: @report, status: :created, location: @report}
 			end
 		else
@@ -24,12 +26,14 @@ class ReportsController < ApplicationController
 			format.json { render json: @report.errors, status: :unprocessable_entity }
 		end
 	end
+
 	def update
     @report = Report.find(params[:id])
-
+    @report.event_check
+    @report.save
     respond_to do |format|
       if @report.update_attributes(params[:report])
-        format.html { redirect_to atlas_report_path(@report), notice: 'Report was successfully updated.' }
+        format.html { redirect_to atlas_report_path(params[:atlas_id], params[:id]), notice: 'Report was successfully updated.' }
         format.json { head :no_content }
       else
         format.html { render action: "edit" }

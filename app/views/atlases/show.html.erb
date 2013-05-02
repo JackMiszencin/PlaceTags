@@ -12,7 +12,7 @@
 	<tbody>
 		<% @reports.each do |r| %>
 			<tr>
-				<td><%= r.event %></td>
+				<td><%= r.event_name %></td>
 				<td><%= r.location %></td>
 				<td><%= r.created_at.strftime("%B %d, %Y, %k:%M:%S %p") %></td>
 			</tr>
