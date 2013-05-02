@@ -4,10 +4,10 @@ class AtlasesController < ApplicationController
 	end
 	def new
 		@atlas = Atlas.new
-		@atlas.user_id = current_user.id #Is this valid?!?!?
+		@atlas.user_id = 5 #Is this valid?!?!?
 		respond_to do |format|
 			format.html
-			format.json { render json: @user }
+			format.json { render json: @atlas }
 		end
 	end
 	def create
@@ -36,5 +36,21 @@ class AtlasesController < ApplicationController
       end
     end
   end
+  def show
+  	@atlas = Atlas.find(params[:id])
+  	@reports = @atlas.reports
 
+  	respond_to do |format|
+  		format.html
+  		format.json { render json: @atlas }
+  	end
+  end
+  def destroy
+  	@atlas = Atlas.find(params[:id])
+  	@atlas.destroy
+  	respond_to do |format|
+  		format.html {redirect_to atlases_path}
+  		format.json { head :no_content }
+  	end
+  end
 end

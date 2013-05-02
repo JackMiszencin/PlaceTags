@@ -1,0 +1,19 @@
+<%= form_for @report do |f| %>
+	<div class = "control-group">
+		<div class = "control-label">
+			<%= f.label :location %>
+		</div>
+		<div class = "controls">
+			<%= f.text_field :location %>
+		</div>
+	</div>
+	<div class = "control-group">
+		<div class = "control-label">
+			<%= f.label :event %>
+		</div>
+		<div class = "controls">
+			<%= f.text_field :event %>
+		</div>
+	</div>
+	<%= f.submit "Create Report" %>
+<% end %>

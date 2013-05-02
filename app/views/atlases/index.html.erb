@@ -6,12 +6,14 @@
 			<tr>
 				<th>Name</th>
 				<th>Created</th>
+				<th>Destroy?</th>
 			</tr>
 		</thead>
 			<% @atlases.each do |a| %>
 				<tr>
 					<td><%= link_to a.name, atlas_path(a) %> </td>
 					<td><%= a.created_at.strftime("%B %d, %Y") %></td>
+					<td><%= link_to "Destroy", a, method: :delete, data: { confirm: 'Are you sure?'}  %> </td>
 				</tr>
 			<% end %>
 	</table>

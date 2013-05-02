@@ -5,6 +5,7 @@
 			<%= f.text_field :name, :class => 'text_field' %>
 		</div>
 	</div>
+	<%= f.hidden_field :user_id, :value => current_user.id %>
 	<% i = 10 %>
 	<%= f.fields_for :sizes do |s| %>
 		<div class="control-group">

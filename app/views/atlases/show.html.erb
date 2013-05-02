@@ -1,0 +1,21 @@
+<%= link_to "Create new report", new_atlas_report_path(@atlas) %>
+
+<h3>Current Reports</h3>
+<table>
+	<thead>
+		<tr>
+			<th>Event</th>
+			<th>Location</th>
+			<th>Received At</th>
+		</tr>
+	</thead>
+	<tbody>
+		<% @reports.each do |r| %>
+			<tr>
+				<td><%= r.event %></td>
+				<td><%= r.location %></td>
+				<td><%= r.created_at.strftime("%B %d, %Y, %k:%M:%S %p") %></td>
+			</tr>
+		<% end %>
+	</tbody>
+</table>
