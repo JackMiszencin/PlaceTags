@@ -12,7 +12,7 @@ class TagsController < ApplicationController
 
 		respond_to do |format|
       if @tag.update_attributes(params[:tag])
-        format.html { redirect_to atlas_report_path(params[:atlas_id], params[:id]), notice: 'Report was successfully updated.' }
+        format.html { redirect_to atlas_tag_path(params[:atlas_id], params[:id]), notice: 'Report was successfully updated.' }
         format.json { head :no_content }
       else
         format.html { render action: "edit" }
@@ -20,5 +20,12 @@ class TagsController < ApplicationController
       end
     end
 	end
+	def show
+		@tag = Tag.find(params[:id])
+  	respond_to do |format|
+  		format.html
+  		format.json { render json: @tag }
+  	end
+  end
 
 end

@@ -1,0 +1,10 @@
+<h2>Tag Updated</h2>
+
+<p>Tag Title: <%= @tag.title %><br>
+	Size Type: <%= @tag.size.label %><br>
+	Size Level: <%= @tag.size.level %><br>
+	Latitude: <%= @tag.lat.to_s %><br>
+	Longitude: <%= @tag.lng.to_s %></p>
+
+<%= link_to "Atlas Dashboard", atlas_path(params[:atlas_id]) %><br>
+<%= link_to "Tags for this atlas", atlas_tags_path(params[:atlas_id]) %>
