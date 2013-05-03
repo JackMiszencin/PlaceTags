@@ -1,0 +1,60 @@
+<h2>Current Place Tags</h2>
+
+<table>
+	<thead>
+		<tr>
+			<th>Name</th>
+			<th>Size Type</th>
+			<th>Size Level</th>
+			<th>Longitude</th>
+			<th>Latitutde</th>
+		</tr>
+	</thead>
+	<tbody>
+		<% @tags.each do |t| %>
+			<%- need = false #Tells the table if it should post a "please edit" prompt %> 
+			<tr>
+				<td><%= t.title %></td>
+				<td>
+					<% if t.size == nil %>
+						<%- need = true %>
+						<%= "?" %>
+					<% else %>
+						<%= t.size.label %>
+					<% end %>
+				</td>
+				<td>
+					<% if t.size == nil %>
+						<%- need = true %>
+						<%= "?" %>
+					<% else %>
+						<%= t.size.level.to_s %>
+					<% end %>
+				</td>
+				<td>
+					<% if t.lng == nil %>
+						<%- need = true %>
+						<%= "?" %>
+					<% else %>
+						<%= t.lng.to_s %>
+					<% end %>
+				</td>
+				<td>
+					<% if t.lat == nil %>
+						<%- need = true %>
+						<%= "?" %>
+					<% else %>
+						<%= t.lat.to_s %>
+					<% end %>
+				</td>
+				<td>
+					<% if need == true %>
+						<em><%= "Missing information. Please update. " %></em>
+					<%else%>
+					<%end%>
+					<%= link_to "EDIT", edit_atlas_tag_path(t.atlas_id, t.id) %>
+				</td>
+			</tr>
+		<% end %>
+	</tbody>
+</table>

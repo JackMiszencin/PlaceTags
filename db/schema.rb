@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20130503004212) do
+ActiveRecord::Schema.define(:version => 20130503055323) do
 
   create_table "atlases", :force => true do |t|
     t.integer  "user_id"
@@ -56,6 +56,8 @@ ActiveRecord::Schema.define(:version => 20130503004212) do
     t.string   "title"
     t.integer  "atlas_id"
     t.integer  "size_id"
+    t.float    "lng"
+    t.float    "lat"
   end
 
   create_table "users", :force => true do |t|
