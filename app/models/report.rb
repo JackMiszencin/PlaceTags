@@ -17,11 +17,30 @@ class Report < ActiveRecord::Base
     end
     e = Event.new
     e.name = self.event_name
+    e.atlas = self.atlas
     self.events << e
     self.save
     e.save
-    return
-    
+    return  
+  end
+  def tag_check
+    @tags = Tag.all
+    @tags.each do |ta|
+      if self.location == ta.title
+        ta.reports << self
+        ta.save
+        self.save
+        return
+      else
+      end
+    end
+    t = Tag.new
+    t.title = self.location
+    t.atlas = self.atlas
+    t.reports << self
+    t.save
+    self.save
+    return  
   end
 
 #  def event_check

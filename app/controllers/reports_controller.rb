@@ -16,6 +16,7 @@ class ReportsController < ApplicationController
 		@report.save
 		if request.post?
 			@report.event_check
+			@report.tag_check
 			@report.save
 			respond_to do |format|
 				format.html { redirect_to atlas_report_path(params[:atlas_id], @report.id) }
