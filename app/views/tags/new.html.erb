@@ -55,21 +55,20 @@
 <div id = "map-holder">
 	<div id = "map-canvas"></div>
 </div>
-
-<%= form_for [@atlas, @tag] do |f| %>
-	<div class = "control-group">
-		<%= f.label :title, :class => 'control-label' %>
-		<div class="controls">
-			<%= f.text_field :title, :class => 'text_field' %>
-		</div>
+	<div id="right-side">
+		<%= form_for [@atlas, @tag] do |f| %>
+			<div class = "control-group">
+				<%= f.label :title, :class => 'control-label' %>
+				<div class="controls">
+					<%= f.text_field :title, :class => 'text_field' %>
+				</div>
+			</div>
+			<div class = "control-group">
+				<%= f.label :radius, :class => 'control-label' %>
+				<div class="controls">
+					<%= f.number_field :radius, :in => 0 ... 50000, :step => 0.5, :value => 100, :class => 'number_field' %>
+				</div>
+			</div>
+			<%= f.submit "Create Tag" %>
+		<% end %>
 	</div>
-	<div class = "control-group">
-		<%= f.label :radius, :class => 'control-label' %>
-		<div class="controls">
-			<%= f.number_field :radius, :in => 0 ... 5000, :step => 0.5, :value => 100, :class => 'number_field' %>
-		</div>
-	</div>
-	<div align="center">
-		<%= f.submit "Create Tag" %>
-	</div>
-<% end %>

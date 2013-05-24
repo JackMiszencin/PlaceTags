@@ -1,7 +1,8 @@
 class TagsController < ApplicationController
 
+
 	def index
-		@tags = Tag.all
+		@tags = Tag.atlas(params[:atlas_id])
 	end
 	def edit
 		@tag = Tag.find(params[:id])
@@ -39,6 +40,10 @@ class TagsController < ApplicationController
 	def create
 		@tag = Tag.new(params[:tag])
 		@tag.atlas_id = params[:atlas_id]
+		@relatives = Tag.atlas(params[:atlas_id])
+		@relatives.each do |r|
+			@tag.build_connection(r)
+		end
 		@tag.save
 
 		respond_to do |format|

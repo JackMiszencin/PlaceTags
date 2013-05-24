@@ -11,13 +11,22 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20130524093345) do
+ActiveRecord::Schema.define(:version => 20130524230927) do
 
   create_table "atlases", :force => true do |t|
     t.integer  "user_id"
     t.string   "name"
     t.datetime "created_at", :null => false
     t.datetime "updated_at", :null => false
+  end
+
+  create_table "connections", :force => true do |t|
+    t.datetime "created_at",  :null => false
+    t.datetime "updated_at",  :null => false
+    t.integer  "tag_id"
+    t.integer  "relative_id"
+    t.string   "type"
+    t.float    "relevance"
   end
 
   create_table "events", :force => true do |t|
