@@ -1,4 +1,4 @@
-<div id = "right-side">
+<div id = "center-pane">
 	<h2>Tag Profile</h2>
 
 	<p>Tag Title: <%= @tag.title %><br>
@@ -9,7 +9,11 @@
 	<br>
 	<%= link_to "Atlas Dashboard", atlas_path(params[:atlas_id]) %><br>
 	<%= link_to "Tags for this atlas", atlas_tags_path(params[:atlas_id]) %>
-</div>	
+</div>
+<div id = "right-pane">
+	<h2>Related Tags</h2>
+	<%= render :partial => 'relations_table' %>
+</div>
 <div id = "map-holder">
 	<div id = "map-canvas"></div>
 </div>

@@ -14,7 +14,7 @@
 		<% @tags.each do |t| %>
 			<%- need = false #Tells the table if it should post a "please edit" prompt %> 
 			<tr>
-				<td><%= t.title %></td>
+				<td><%= link_to t.title, atlas_tag_path(@atlas.id, t) %></td>
 				<td>
 					<% if t.size == nil %>
 						<%- need = true %>
@@ -58,5 +58,6 @@
 		<% end %>
 	</tbody>
 </table>
-
+<br>
 <%= link_to "Atlas Dashboard", atlas_path(params[:atlas_id]) %><br>
+<%= link_to "Create Tag", new_atlas_tag_path(params[:atlas_id]) %>

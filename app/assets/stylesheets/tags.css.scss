@@ -9,9 +9,15 @@
 	height: 400px;
 
 }
-#right-side{
+#center-pane{
 	position: absolute;
 	left: 475px;
+	top: 20px;
+	width: 300px;
+}
+#right-pane{
+	position: absolute;
+	left: 800px;
 	top: 20px;
 }
 #map-canvas{

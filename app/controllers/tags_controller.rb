@@ -2,6 +2,7 @@ class TagsController < ApplicationController
 
 
 	def index
+		@atlas = Atlas.find_by_id(params[:atlas_id])
 		@tags = Tag.atlas(params[:atlas_id])
 	end
 	def edit
@@ -24,6 +25,21 @@ class TagsController < ApplicationController
 	end
 	def show
 		@tag = Tag.find(params[:id])
+#		@parents
+#		@chilren
+#		@siblings
+		@roles = @tag.roles.includes(:relative)
+		@roles.sort!{ |r, t| t.relevance_score <=> r.relevance_score }
+#		@relatives.each do |r|
+#			case r.type
+#			when "parent"
+#				@parents << r
+#			when "child"
+#				@chilren << r
+#			else
+#				@siblings << s
+#			end
+#		end	
   	respond_to do |format|
   		format.html
   		format.json { render json: @tag }

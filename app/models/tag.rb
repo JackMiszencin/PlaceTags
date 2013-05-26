@@ -1,4 +1,5 @@
 class Tag < ActiveRecord::Base
+  include ActionView::Helpers::NumberHelper
   belongs_to :atlas
   has_many :reports, :foreign_key => "tag_id"
   belongs_to :size
@@ -52,8 +53,18 @@ class Tag < ActiveRecord::Base
   def area
     return (radius**2)*Math::PI
   end
+  def format_area
+    if area > 1000.0
+      line = number_with_delimiter((area/1000).round(2)) + " sq. km"
+    else
+      line = number_with_delimiter(area.round(2)) + " sq. m"
+    end
+    return line
+  end
   def common_area(tag_two, type)
     case type
+    when "duplicate"
+      return area
     when "child"
       return tag_two.area
     when "parent"
@@ -70,11 +81,23 @@ class Tag < ActiveRecord::Base
       return segment_one + segment_two
     end
   end
+  def format_common_area(tag_two, type)
+    ca = common_area(tag_two, type)
+    if ca > 1000.0
+      line = number_with_delimiter((ca/1000).round(2)) + " sq. km"
+    else
+      line = number_with_delimiter(ca.round(2)) + " sq. m"
+    end
+    return line
+  end
+
 
   # METHODS FOR CREATING SYSTEMS OF CONNECTION AND INTERITANCE
   def get_type(tag_two)
     if intersect(tag_two) == false
       type = "none"
+    elsif radius == tag_two.radius && lat = tag_two.lat && lng == tag_two.lng
+      type = "duplicate"
     elsif (distance(tag_two.lat, tag_two.lng) + tag_two.radius) < radius
       type = "child"
     elsif (distance(tag_two.lat, tag_two.lng) + radius) < tag_two.radius
@@ -88,6 +111,8 @@ class Tag < ActiveRecord::Base
     return if id == tag_two.id
     type = get_type(tag_two)
     case type
+    when "duplicate"
+      build_duplicate(tag_two, 1)
     when "child"
       build_child(tag_two, 1)
     when "parent"
@@ -98,6 +123,21 @@ class Tag < ActiveRecord::Base
       return
     end
   end
+  def build_duplicate(tag_two, iteration)
+    rel = relevance(tag_two, "duplicate")
+    r = Role.new
+    r.kind = "duplicate"
+    r.relevance_score = rel
+    r.tag_id = id
+    r.relative_id = tag_two.id
+    r.save
+    if iteration == 1
+      tag_two.build_duplicate(self, 2)
+    else
+      return
+    end
+  end
+
   def build_child(tag_two, iteration)
     rel = relevance(tag_two, "child")
     r = Role.new

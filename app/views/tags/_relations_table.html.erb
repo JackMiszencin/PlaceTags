@@ -1,0 +1,25 @@
+<table>
+	<thead>
+		<th>Tag</th>
+		<th>Relationship</th>
+		<th>Land Area</th>
+	</thead>
+	<tbody>
+		<% @roles.each do |r| %>
+			<tr>
+				<td><%= r.relative.title %></td>
+				<td><% if r.kind == "duplicate" %>
+							<%= "Shares exact same area and location" %>
+						<% elsif r.kind == "sibling" %>
+							<%= "Shares " + @tag.format_common_area(r.relative, "sibling") %>
+						<% elsif r.kind == "child" %>
+							<%= "Part of " + @tag.title %>
+						<% else %>
+							<%= "Encompasses " + @tag.title %>
+						<% end %>
+					</td>
+				<td><%= r.relative.format_area %></td>
+			</tr>
+		<% end %>
+	</tbody>
+</table>
