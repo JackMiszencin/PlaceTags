@@ -2,10 +2,10 @@ class Tag < ActiveRecord::Base
   belongs_to :atlas
   has_many :reports, :foreign_key => "tag_id"
   belongs_to :size
-  has_many :connections, :foreign_key => :tag_id
-  has_many :relatives, :through => :connections
+  has_many :roles, :foreign_key => :tag_id
+  has_many :relatives, :through => :roles
   accepts_nested_attributes_for :size
-  attr_accessible :size_attributes, :lng, :lat, :title, :size_id, :radius
+  attr_accessible :size_attributes, :lng, :lat, :title, :size_id, :radius, :id
   # attr_accessible :title, :body
   def self.atlas(index)
     where(:atlas_id => index)
@@ -85,6 +85,7 @@ class Tag < ActiveRecord::Base
     return type
   end
   def build_connection(tag_two)
+    return if id == tag_two.id
     type = get_type(tag_two)
     case type
     when "child"
@@ -99,12 +100,18 @@ class Tag < ActiveRecord::Base
   end
   def build_child(tag_two, iteration)
     rel = relevance(tag_two, "child")
-    c = Connection.new
-    c.type = "child"
-    c.tag = self
-    c.relative = tag_two
-    c.relevance = rel
-    c.save
+    r = Role.new
+    r.kind = "child"
+    r.relevance_score = rel
+    r.tag_id = id
+    r.relative_id = tag_two.id
+    r.save
+#    c = Connection.new
+#    c.type = "child"
+#    c.tag = self
+#    c.relative = tag_two
+#    c.relevance = rel
+#    c.save
     if iteration == 1
       tag_two.build_parent(self, 2)
     else
@@ -113,12 +120,18 @@ class Tag < ActiveRecord::Base
   end
   def build_parent(tag_two, iteration)
     rel = relevance(tag_two, "parent")
-    c = Connection.new
-    c.type = "parent"
-    c.tag = self
-    c.relative = tag_two
-    c.relevance = rel
-    c.save
+    r = Role.new
+    r.kind = "parent"
+    r.relevance_score = rel
+    r.tag_id = id
+    r.relative_id = tag_two.id
+    r.save
+#    c = Connection.new
+#    c.type = "parent"
+#    c.tag = self
+#    c.relative = tag_two
+#    c.relevance = rel
+#    c.save
     if iteration == 1
       tag_two.build_child(self, 2)
     else
@@ -127,12 +140,18 @@ class Tag < ActiveRecord::Base
   end
   def build_sibling(tag_two, iteration)
     rel = relevance(tag_two, "sibling")
-    c = Connection.new
-    c.type = sibling
-    c.tag = self
-    c.relative = tag_two
-    c.relevance = rel
-    c.save
+    r = Role.new
+    r.kind = "sibling"
+    r.relevance_score = rel
+    r.tag_id = id
+    r.relative_id = tag_two.id
+    r.save
+#    c = Connection.new
+#    c.type = sibling
+#    c.tag = self
+#    c.relative = tag_two
+#    c.relevance = rel
+#    c.save
     if iteration == 1
       tag_two.build_sibling(self, 2)
     else

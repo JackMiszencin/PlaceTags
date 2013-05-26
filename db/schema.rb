@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20130524230927) do
+ActiveRecord::Schema.define(:version => 20130526051222) do
 
   create_table "atlases", :force => true do |t|
     t.integer  "user_id"
@@ -91,6 +91,16 @@ ActiveRecord::Schema.define(:version => 20130524230927) do
     t.integer  "tag_id"
     t.integer  "atlas_id"
     t.string   "event_name"
+  end
+
+  create_table "roles", :force => true do |t|
+    t.string   "name"
+    t.datetime "created_at",      :null => false
+    t.datetime "updated_at",      :null => false
+    t.float    "relevance_score"
+    t.string   "kind"
+    t.integer  "tag_id"
+    t.integer  "relative_id"
   end
 
   create_table "sessions", :force => true do |t|

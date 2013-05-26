@@ -41,6 +41,7 @@ class TagsController < ApplicationController
 		@tag = Tag.new(params[:tag])
 		@tag.atlas_id = params[:atlas_id]
 		@relatives = Tag.atlas(params[:atlas_id])
+		@tag.save
 		@relatives.each do |r|
 			@tag.build_connection(r)
 		end
