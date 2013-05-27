@@ -51,6 +51,7 @@ class TagsController < ApplicationController
   end
 	def new
 			@atlas = Atlas.find_by_id(params[:atlas_id])
+			@sizes = Size.atlas(@atlas.id)
 			@tag = Tag.new
 			respond_to do |format|
 				format.html
