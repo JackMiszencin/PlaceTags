@@ -3,7 +3,11 @@ class TagsController < ApplicationController
 
 	def index
 		@atlas = Atlas.find_by_id(params[:atlas_id])
-		@tags = Tag.atlas(params[:atlas_id])
+		if params[:search]
+			@tags = Tag.search(params[:search], params[:atlas_id])
+		else
+			@tags = Tag.atlas(params[:atlas_id])
+		end
 	end
 	def edit
 		@tag = Tag.find(params[:id])

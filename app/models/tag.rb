@@ -11,7 +11,46 @@ class Tag < ActiveRecord::Base
   def self.atlas(index)
     where(:atlas_id => index)
   end
-
+  def self.search(query_string, atlas_id)
+    @tags = Tag.atlas(atlas_id).includes(:relatives, :roles, :size)
+    puts @tags
+    @find_me = query_string
+    search_proc = Proc.new {
+      |a, b|
+      puts @find_me
+      score_one = a.search_score(@find_me)
+      score_two = b.search_score(@find_me)
+      score_two <=> score_one
+    }
+    @tags.sort!(&search_proc)
+    puts @tags
+    return @tags = @tags.first(20)
+  end
+  def search_score(query_string)
+    items = query_string.split(" ")
+    score = 0.0
+    if title == query_string
+      score += 10
+    elsif title.include?(query_string)
+      score += 5
+    else
+    end
+    items.each do |item|
+      if title.include?(item)
+        score += 1
+      end
+      roles.each do |role|
+        r = role.relative
+        if role.relative.title.include?(item)
+          score += (role.relevance_score * 5)
+        end
+      end
+      if size.label.include?(item)
+        score += 2
+      end
+    end
+    return score.round
+  end
   # GEOMETRY METHODS
   def deg_per_met
     r = 6371000
