@@ -4,7 +4,7 @@
 	<p>Tag Title: <%= @tag.title %><br>
 		Latitude: <span id = "lat_span"><%= @tag.lat.to_s %></span><br>
 		Longitude: <span id = "lng_span"><%= @tag.lng.to_s %></span><br>
-		Radius: <span id = "radius_span"><%= @tag.radius.to_s %></span></p>
+		Radius: <span id = "radius_span"><%= @tag.radius.to_s %></span> meters</p>
 	<br>
 	<br>
 	<%= link_to "Atlas Dashboard", atlas_path(params[:atlas_id]) %><br>
@@ -13,6 +13,28 @@
 <div id = "right-pane">
 	<h2>Related Tags</h2>
 	<%= render :partial => 'relations_table' %>
+</div>
+<div id = "bottom-right">
+	<h2>Events At This Location</h2>
+	<table>
+		<thead>
+			<th>Event</th>
+			<th>Date Reported</th>
+		</thead>
+		<tbody>
+			<% @events.each do |e| %>
+				<tr><td><strong><%= e.name %><strong></td></tr>
+				<% e.reports.each do |r| %>
+					<%- if r.tag_id == @tag.id %>
+						<tr>
+							<td><em>Report:</em></td>
+							<td><%= r.created_at.strftime("%B %d, %Y, %k:%M:%S %p") %></td>
+						</tr>
+					<%- end %>
+				<%- end %>
+			<% end %>
+		</tbody>
+	</table>
 </div>
 <div id = "map-holder">
 	<div id = "map-canvas"></div>

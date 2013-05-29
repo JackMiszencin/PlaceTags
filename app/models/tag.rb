@@ -2,29 +2,28 @@ class Tag < ActiveRecord::Base
   include ActionView::Helpers::NumberHelper
   belongs_to :atlas
   has_many :reports, :foreign_key => "tag_id"
+  has_many :events, :through => :reports
   belongs_to :size
   has_many :roles, :foreign_key => :tag_id
   has_many :relatives, :through => :roles
   accepts_nested_attributes_for :size
   attr_accessible :size_attributes, :lng, :lat, :title, :size_id, :radius, :id
-  # attr_accessible :title, :body
+
   def self.atlas(index)
     where(:atlas_id => index)
   end
   def self.search(query_string, atlas_id)
-    @tags = Tag.atlas(atlas_id).includes(:relatives, :roles, :size)
-    puts @tags
+    @results = Tag.atlas(atlas_id).includes(:relatives, :roles, :size)
     @find_me = query_string
     search_proc = Proc.new {
       |a, b|
-      puts @find_me
       score_one = a.search_score(@find_me)
       score_two = b.search_score(@find_me)
       score_two <=> score_one
     }
-    @tags.sort!(&search_proc)
-    puts @tags
-    return @tags = @tags.first(20)
+    @results.select!{|r| r.search_score(@find_me) > 0}
+    @results.sort!(&search_proc)
+    return @results = @results[(0..4)]
   end
   def search_score(query_string)
     items = query_string.split(" ")
@@ -59,8 +58,8 @@ class Tag < ActiveRecord::Base
     return 360 / (rprime*2*Math::PI) # Takes this radius and uses it to get the cross-sectional circumference at that point in meters
     # and return 360 degrees by this circumferences to get degrees per meter.
   end
-  def include_point(latit, longit)
-    deg_away = distance(latit, longit)
+  def include_point(latitude, longitude)
+    deg_away = point_distance(latitude, longitude)
     if deg_away <= radius
       return true
     else
@@ -68,16 +67,26 @@ class Tag < ActiveRecord::Base
     end
   end
   def intersect(tag_two) # Determines if two tags intersect at all.
-    if distance(tag_two.lat, tag_two.lng) <= (radius + tag_two.radius)
+    if distance(tag_two) <= (radius + tag_two.radius)
       return true
     else
       return false
     end
   end
-  def distance(latit, longit) # Returns the distance of a latitude_longitude point from 
-    # a tag. Returned in meters.
-    lat_dif = lat - latit
-    lng_dif = lng - longit
+  def distance(tag_two) # Returns the distance of a latitude_longitude point from 
+    # a tag. Returned in meters. Takes account for changes in meters per degree across
+    # latitudes
+    lat_dif = lat - tag_two.lat
+    lng_dif = lng - tag_two.lng
+    deg_square = lat_dif**2 + lng_dif**2
+    avg_degrees_per_meter = (deg_per_met + tag_two.deg_per_met)/2
+    return (Math.sqrt(deg_square))/avg_degrees_per_meter
+  end
+  def point_distance(latitude, longitude) # Returns the distance of a latitude_longitude point from 
+    # a tag. Returned in meters. Does not take account for changes in meters per degree across
+    # latitudes
+    lat_dif = lat - latitude
+    lng_dif = lng - longitude
     deg_square = lat_dif**2 + lng_dif**2
     return (Math.sqrt(deg_square))/deg_per_met
   end
@@ -109,7 +118,7 @@ class Tag < ActiveRecord::Base
     when "parent"
       return area
     else
-      away = distance(tag_two.lat, tag_two.lng) # The distance between the first tag's
+      away = distance(tag_two) # The distance between the first tag's
       # center and the second tag's center.
       r = radius
       r_two = tag_two.radius
@@ -137,9 +146,9 @@ class Tag < ActiveRecord::Base
       type = "none"
     elsif radius == tag_two.radius && lat = tag_two.lat && lng == tag_two.lng
       type = "duplicate"
-    elsif (distance(tag_two.lat, tag_two.lng) + tag_two.radius) < radius
+    elsif (distance(tag_two) + tag_two.radius) < radius
       type = "child"
-    elsif (distance(tag_two.lat, tag_two.lng) + radius) < tag_two.radius
+    elsif (distance(tag_two) + radius) < tag_two.radius
       type = "parent"
     else
       type = "sibling"

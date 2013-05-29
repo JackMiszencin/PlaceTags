@@ -29,34 +29,23 @@ class TagsController < ApplicationController
 	end
 	def show
 		@tag = Tag.find(params[:id])
-#		@parents
-#		@chilren
-#		@siblings
+		@events = @tag.events.includes(:reports)
 		@roles = @tag.roles.includes(:relative)
 		@roles.sort!{ |r, t| t.relevance_score <=> r.relevance_score }
-#		@relatives.each do |r|
-#			case r.type
-#			when "parent"
-#				@parents << r
-#			when "child"
-#				@chilren << r
-#			else
-#				@siblings << s
-#			end
-#		end	
   	respond_to do |format|
   		format.html
   		format.json { render json: @tag }
   	end
   end
 	def new
-			@atlas = Atlas.find_by_id(params[:atlas_id])
-			@sizes = Size.atlas(@atlas.id)
-			@tag = Tag.new
-			respond_to do |format|
-				format.html
-				format.json { render json: @tag }
-			end
+		@atlas = Atlas.find_by_id(params[:atlas_id])
+		@sizes = Size.atlas(@atlas.id)
+		@sizes.sort!{ |x, y| y.level <=> x.level}
+		@tag = Tag.new
+		respond_to do |format|
+			format.html
+			format.json { render json: @tag }
+		end
 	end
 	def create
 		@tag = Tag.new(params[:tag])

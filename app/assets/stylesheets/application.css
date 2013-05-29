@@ -11,3 +11,25 @@
  *= require_self
  *= require_tree .
  */
+table {
+	border-collapse: collapse;
+	border: 1px solid black;
+}
+td {
+	border: 1px solid black;
+	padding: 5px;
+}
+a {
+	border: 1px solid black;
+	text-decoration: none;
+	color: black;
+	margin: 5px;
+	line-height: 200%;
+	border-radius: 3px;
+	padding: 5px;
+	font-family: Helvetica;
+}
+a:hover {
+	background-color: black;
+	color: white;
+}

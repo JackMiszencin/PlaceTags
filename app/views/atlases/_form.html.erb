@@ -13,6 +13,8 @@
 				<div class="controls">
 					<%= s.hidden_field :level, :value => i %>
 					<%= s.text_field :label, :class => 'text_field' %>
+					<%= s.label "Default radius (meters)" %>
+					<%= s.number_field :default_radius, :step => 0.5, :class => 'radius_field' %>
 				</div>
 		</div>
 		<% i -= 1 %>

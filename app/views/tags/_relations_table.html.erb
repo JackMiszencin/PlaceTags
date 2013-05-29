@@ -7,7 +7,7 @@
 	<tbody>
 		<% @roles.each do |r| %>
 			<tr>
-				<td><%= r.relative.title %></td>
+				<td><%= link_to r.relative.title, atlas_tag_path(params[:atlas_id], r.relative.id) %></td>
 				<td><% if r.kind == "duplicate" %>
 							<%= "Shares exact same area and location" %>
 						<% elsif r.kind == "sibling" %>
