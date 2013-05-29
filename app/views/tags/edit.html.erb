@@ -1,30 +1,109 @@
-<h2>Update Tag<h2>
+<script type="text/javascript">
+	var radiusDefault = Number($("#tag_radius").val());
+	function initialize() {
+		var latHolder = Number($("#tag_lat").val());
+		var lngHolder = Number($("#tag_lng").val());
+		var markerPoint = new google.maps.LatLng(latHolder, lngHolder, false);
+		console.log(latHolder);
+		console.log(lngHolder);
+		console.log(markerPoint.lat());
+		console.log(markerPoint.lng());
+	  var mapOptions = {
+	    center: markerPoint,
+	    zoom: 8,
+	    mapTypeId: google.maps.MapTypeId.HYBRID
+	  };
+	  var map = new google.maps.Map(document.getElementById("map-canvas"), mapOptions);
+		function addMarker(event){
+			marker = new google.maps.Marker({
+				map:map,
+				draggable:true,
+				position:markerPoint,
+				animation: null
+			});
+			function addCircle(){
+				radiusDefault = Number($("#tag_radius").val());
+				markerCircle = new google.maps.Circle({
+					map:map,
+					center:markerPoint,
+					radius:radiusDefault,
+					fillColor:"#EEEEEE",
+					fillOpacity:0.5,
+					strokeColor:"#EEEEEE",
+					strokeOpacity:1.0
+				});
+				$("#tag_size_id").on('click', function(){
+					var sizeId = String($("#tag_size_id").val());
+					sizeId = "#" + sizeId;
+					markerCircle.setRadius(Number($(sizeId).val()))
+				});
+			};
+			google.maps.event.addListenerOnce(map, 'click', addCircle);
+			google.maps.event.trigger(map, 'click')
+			function recenterCircle(){
+				var newLatLng = marker.getPosition();
+				markerCircle.setCenter(newLatLng);
+				$("#tag_lat").val(newLatLng.lat());
+				$("#tag_lng").val(newLatLng.lng());				
+			};
+			google.maps.event.addListener(marker, 'drag', recenterCircle)
+			var lat = markerPoint.lat();
+			var lng = markerPoint.lng();
+			$("#tag_radius").on("click", function(){
+				newRadius = Number($(this).val());
+				markerCircle.setRadius(newRadius);
+			});
+			$("#tag_radius").on("keyup", function(){
+				rFeed = String($(this).val());
+				newRadius = Number(rFeed);
+				markerCircle.setRadius(newRadius);
+			});
+		};
+		google.maps.event.addListenerOnce(map, 'click', addMarker);
+		google.maps.event.trigger(map, 'click');
+		$("#tag_size_id").on('click', function(){
+			var sizeId = String($("#tag_size_id").val());
+			sizeId = "#" + sizeId;
+			radiusDefault = Number($(sizeId).val());
+			$("#tag_radius").val(radiusDefault);
+		});
+	};
 
-<%= form_for [@atlas, @tag] do |f| %>
-	<div class = "control-group">
-		<%= f.label :title %>
-		<div class = "controls">
-			<%= f.text_field :title %>
-		</div>
-	</div>	
-	<div class = "control-group">
-		<%= f.label :size %>
-		<div class = "controls">
-			<%= select "tag", "size_id", @sizes.collect {|s| [s.label, s.id]} %>
-		</div>
-	</div>
-	<div class = "control-group">
-		<%= f.label :lng %>
-		<div class = "controls">
-			<%= f.text_field :lng %>
-		</div>
-	</div>
-	<div class = "control-group">
-		<%= f.label :lat %>
-		<div class = "controls">
-			<%= f.text_field :lat %>
-		</div>
-	</div>
-	<%= f.submit "Update Tag" %>
+	google.maps.event.addDomListener(window, 'load', initialize);
 
-<% end %>
+
+
+</script>
+<div id = "map-holder">
+	<div id = "map-canvas"></div>
+</div>
+	<div id="center-pane">
+		<%= form_for [@atlas, @tag] do |f| %>
+			<%= f.hidden_field :lat %>
+			<%= f.hidden_field :lng %>
+			<div class = "control-group">
+				<%= f.label :title, :class => 'control-label' %>
+				<div class="controls">
+					<%= f.text_field :title, :class => 'text_field' %>
+				</div>
+			</div>
+			<div class = "control-group">
+				<%= f.label :size, :class => 'control-label' %>
+				<div class="controls">
+					<%= collection_select(:tag, :size_id, @sizes, :id, :label, options={:prompt => "Select a size level"}, :class => "size") %>
+				</div>
+			</div>
+			<div class = "control-group">
+				<%= f.label :radius, :class => 'control-label' %>
+				<div class="controls">
+					<%= f.number_field :radius, :in => 0 ... 50000, :step => 0.5, :value => 100, :class => 'number_field' %>
+				</div>
+			</div>
+			<%= f.submit "Update Tag" %>
+		<% end %>
+	</div>
+	<div>
+		<% @sizes.each do |s| %>
+		 <%= hidden_field_tag s.id, s.default_radius %>
+		<% end %>
+	</div>
