@@ -4,7 +4,7 @@ class AtlasesController < ApplicationController
 	end
 	def new
 		@atlas = Atlas.new
-		@atlas.user_id = 5 #Is this valid?!?!?
+		@atlas.user_id = current_user.id #Is this valid?!?!?
 		respond_to do |format|
 			format.html
 			format.json { render json: @atlas }
