@@ -1,4 +1,4 @@
-class Size < ActiveRecord::Base
+class Type < ActiveRecord::Base
 	attr_accessible :atlas_id, :level, :label, :default_radius
 	belongs_to :atlas
 	has_many :tags

@@ -4,16 +4,18 @@ class Tag < ActiveRecord::Base
   has_many :reports, :foreign_key => "tag_id"
   has_many :events, :through => :reports
   belongs_to :size
+  belongs_to :type
   has_many :roles, :foreign_key => :tag_id
   has_many :relatives, :through => :roles
   accepts_nested_attributes_for :size
-  attr_accessible :size_attributes, :lng, :lat, :title, :size_id, :radius, :id
+  accepts_nested_attributes_for :type
+  attr_accessible :size_attributes, :lng, :lat, :title, :size_id, :radius, :id, :type_id
 
   def self.atlas(index)
     where(:atlas_id => index)
   end
   def self.search(query_string, atlas_id)
-    @results = Tag.atlas(atlas_id).includes(:relatives, :roles, :size)
+    @results = Tag.atlas(atlas_id).includes(:relatives, :roles, :type)
     @find_me = query_string
     search_proc = Proc.new {
       |a, b|
@@ -44,7 +46,7 @@ class Tag < ActiveRecord::Base
           score += (role.relevance_score * 5)
         end
       end
-      if size.label.include?(item)
+      if type.label.include?(item)
         score += 2
       end
     end

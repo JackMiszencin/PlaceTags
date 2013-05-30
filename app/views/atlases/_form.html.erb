@@ -7,14 +7,14 @@
 	</div>
 	<%= f.hidden_field :user_id, :value => current_user.id %>
 	<% i = 10 %>
-	<%= f.fields_for :sizes do |s| %>
+	<%= f.fields_for :types do |t| %>
 		<div class="control-group">
-			<%= s.label :label, "Size Level " + i.to_s %>
+			<%= t.label :label, "Type " + i.to_s %>
 				<div class="controls">
-					<%= s.hidden_field :level, :value => i %>
-					<%= s.text_field :label, :class => 'text_field' %>
-					<%= s.label "Default radius (meters)" %>
-					<%= s.number_field :default_radius, :step => 0.5, :class => 'radius_field' %>
+					<%= t.hidden_field :level, :value => i %>
+					<%= t.text_field :label, :class => 'text_field' %>
+					<%= t.label "Default radius (meters)" %>
+					<%= t.number_field :default_radius, :step => 0.5, :class => 'radius_field' %>
 				</div>
 		</div>
 		<% i -= 1 %>

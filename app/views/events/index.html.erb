@@ -16,7 +16,7 @@
 				<tr>
 					<td><em>Report:</em></td>
 					<td><%= r.event_name%></td>
-					<td><%= r.location %></td>
+					<td><%= link_to r.location, atlas_tag_path(@atlas.id, r.tag_id) %></td>
 				</tr>
 			<% end %>
 		<% end %>

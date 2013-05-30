@@ -32,10 +32,10 @@
 					strokeColor:"#EEEEEE",
 					strokeOpacity:1.0
 				});
-				$("#tag_size_id").on('click', function(){
-					var sizeId = String($("#tag_size_id").val());
-					sizeId = "#" + sizeId;
-					markerCircle.setRadius(Number($(sizeId).val()))
+				$("#tag_type_id").on('click', function(){
+					var typeId = String($("#tag_type_id").val());
+					typeId = "#" + typeId;
+					markerCircle.setRadius(Number($(typeId).val()))
 				});
 			};
 			google.maps.event.addListenerOnce(map, 'click', addCircle);
@@ -61,10 +61,10 @@
 		};
 		google.maps.event.addListenerOnce(map, 'click', addMarker);
 		google.maps.event.trigger(map, 'click');
-		$("#tag_size_id").on('click', function(){
-			var sizeId = String($("#tag_size_id").val());
-			sizeId = "#" + sizeId;
-			radiusDefault = Number($(sizeId).val());
+		$("#tag_type_id").on('click', function(){
+			var typeId = String($("#tag_type_id").val());
+			typeId = "#" + typeId;
+			radiusDefault = Number($(typeId).val());
 			$("#tag_radius").val(radiusDefault);
 		});
 	};
@@ -88,22 +88,22 @@
 				</div>
 			</div>
 			<div class = "control-group">
-				<%= f.label :size, :class => 'control-label' %>
+				<%= f.label :type, :class => 'control-label' %>
 				<div class="controls">
-					<%= collection_select(:tag, :size_id, @sizes, :id, :label, options={:prompt => "Select a size level"}, :class => "size") %>
+					<%= collection_select(:tag, :type_id, @types, :id, :label, options={:prompt => "Select a type level"}, :class => "type") %>
 				</div>
 			</div>
 			<div class = "control-group">
 				<%= f.label :radius, :class => 'control-label' %>
 				<div class="controls">
-					<%= f.number_field :radius, :in => 0 ... 50000, :step => 0.5, :value => 100, :class => 'number_field' %>
+					<%= f.number_field :radius, :in => 0 ... 100000, :step => 0.5, :value => @tag.radius, :class => 'number_field' %>
 				</div>
 			</div>
 			<%= f.submit "Update Tag" %>
 		<% end %>
 	</div>
 	<div>
-		<% @sizes.each do |s| %>
+		<% @types.each do |s| %>
 		 <%= hidden_field_tag s.id, s.default_radius %>
 		<% end %>
 	</div>

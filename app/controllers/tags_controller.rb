@@ -12,8 +12,8 @@ class TagsController < ApplicationController
 	def edit
 		@tag = Tag.find(params[:id])
 		@atlas = Atlas.find(params[:atlas_id])
-		@sizes = Size.atlas(@atlas.id)
-		@sizes.sort!{ |x, y| y.level <=> x.level}
+		@types = Type.atlas(@atlas.id)
+		@types.sort!{ |x, y| y.level <=> x.level}
 	end
 	def update
 		@tag = Tag.find(params[:id])
@@ -40,8 +40,8 @@ class TagsController < ApplicationController
   end
 	def new
 		@atlas = Atlas.find_by_id(params[:atlas_id])
-		@sizes = Size.atlas(@atlas.id)
-		@sizes.sort!{ |x, y| y.level <=> x.level}
+		@types = Type.atlas(@atlas.id)
+		@types.sort!{ |x, y| y.level <=> x.level}
 		@tag = Tag.new
 		respond_to do |format|
 			format.html

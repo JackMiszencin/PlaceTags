@@ -11,22 +11,13 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20130528001823) do
+ActiveRecord::Schema.define(:version => 20130530054616) do
 
   create_table "atlases", :force => true do |t|
     t.integer  "user_id"
     t.string   "name"
     t.datetime "created_at", :null => false
     t.datetime "updated_at", :null => false
-  end
-
-  create_table "connections", :force => true do |t|
-    t.datetime "created_at",  :null => false
-    t.datetime "updated_at",  :null => false
-    t.integer  "tag_id"
-    t.integer  "relative_id"
-    t.string   "type"
-    t.float    "relevance"
   end
 
   create_table "events", :force => true do |t|
@@ -141,6 +132,16 @@ ActiveRecord::Schema.define(:version => 20130528001823) do
     t.float    "lng"
     t.float    "lat"
     t.float    "radius"
+    t.integer  "type_id"
+  end
+
+  create_table "types", :force => true do |t|
+    t.integer  "level"
+    t.string   "label"
+    t.integer  "atlas_id"
+    t.float    "default_radius"
+    t.datetime "created_at",     :null => false
+    t.datetime "updated_at",     :null => false
   end
 
   create_table "users", :force => true do |t|
