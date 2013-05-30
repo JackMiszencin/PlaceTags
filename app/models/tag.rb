@@ -28,25 +28,25 @@ class Tag < ActiveRecord::Base
     return @results = @results[(0..4)]
   end
   def search_score(query_string)
-    items = query_string.split(" ")
+    items = query_string.downcase.split(" ")
     score = 0.0
-    if title == query_string
+    if title.downcase == query_string
       score += 10
-    elsif title.include?(query_string)
+    elsif title.downcase.include?(query_string)
       score += 5
     else
     end
     items.each do |item|
-      if title.include?(item)
+      if title.downcase.include?(item)
         score += 1
       end
       roles.each do |role|
         r = role.relative
-        if role.relative.title.include?(item)
+        if role.relative.title.downcase.include?(item)
           score += (role.relevance_score * 5)
         end
       end
-      if type.label.include?(item)
+      if type.label.downcase.include?(item)
         score += 2
       end
     end

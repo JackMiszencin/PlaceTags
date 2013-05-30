@@ -103,7 +103,7 @@
 		<% end %>
 	</div>
 	<div>
-		<% @types.each do |s| %>
-		 <%= hidden_field_tag s.id, s.default_radius %>
+		<% @types.each do |t| %>
+		 <%= hidden_field_tag t.id, t.average_radius %>
 		<% end %>
 	</div>

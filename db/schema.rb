@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20130530054616) do
+ActiveRecord::Schema.define(:version => 20130530183643) do
 
   create_table "atlases", :force => true do |t|
     t.integer  "user_id"
@@ -31,48 +31,6 @@ ActiveRecord::Schema.define(:version => 20130530054616) do
     t.integer "event_id"
     t.integer "report_id"
   end
-
-  create_table "merchant_ratings", :force => true do |t|
-    t.integer "merchant_id"
-    t.integer "rating_id"
-  end
-
-  add_index "merchant_ratings", ["merchant_id"], :name => "index_merchant_ratings_on_merchant_id"
-  add_index "merchant_ratings", ["rating_id"], :name => "index_merchant_ratings_on_rating_id"
-
-  create_table "merchants", :force => true do |t|
-    t.datetime "created_at",                      :null => false
-    t.datetime "updated_at",                      :null => false
-    t.string   "name"
-    t.string   "address"
-    t.string   "city"
-    t.string   "state"
-    t.integer  "zip_code"
-    t.integer  "current_song_id"
-    t.integer  "previous_song_id"
-    t.integer  "account_id"
-    t.float    "lat"
-    t.float    "lng"
-    t.integer  "owner_id",         :default => 1, :null => false
-  end
-
-  add_index "merchants", ["current_song_id"], :name => "index_merchants_on_current_song_id"
-  add_index "merchants", ["previous_song_id"], :name => "index_merchants_on_previous_song_id"
-
-  create_table "ratings", :force => true do |t|
-    t.datetime "created_at",  :null => false
-    t.datetime "updated_at",  :null => false
-    t.boolean  "like"
-    t.integer  "user_id"
-    t.integer  "song_id"
-    t.integer  "merchant_id"
-    t.integer  "mumbo"
-    t.integer  "owner_id"
-  end
-
-  add_index "ratings", ["merchant_id"], :name => "index_ratings_on_merchant_id"
-  add_index "ratings", ["owner_id"], :name => "index_ratings_on_owner_id"
-  add_index "ratings", ["song_id"], :name => "index_ratings_on_song_id"
 
   create_table "reports", :force => true do |t|
     t.datetime "created_at", :null => false
@@ -114,15 +72,6 @@ ActiveRecord::Schema.define(:version => 20130530054616) do
     t.integer  "default_radius"
   end
 
-  create_table "songs", :force => true do |t|
-    t.datetime "created_at",   :null => false
-    t.datetime "updated_at",   :null => false
-    t.string   "artist"
-    t.string   "title"
-    t.string   "album"
-    t.integer  "merchant_ids"
-  end
-
   create_table "tags", :force => true do |t|
     t.datetime "created_at", :null => false
     t.datetime "updated_at", :null => false
@@ -139,9 +88,8 @@ ActiveRecord::Schema.define(:version => 20130530054616) do
     t.integer  "level"
     t.string   "label"
     t.integer  "atlas_id"
-    t.float    "default_radius"
-    t.datetime "created_at",     :null => false
-    t.datetime "updated_at",     :null => false
+    t.datetime "created_at", :null => false
+    t.datetime "updated_at", :null => false
   end
 
   create_table "users", :force => true do |t|
