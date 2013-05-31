@@ -4,7 +4,23 @@ class Type < ActiveRecord::Base
 	belongs_to :atlas
 	has_many :tags
 	after_create :increase_count
+	after_create :set_default_radius
 	after_destroy :decrease_count
+	after_destroy :set_levels
+	def set_default_radius
+		self.default_radius = self.average_radius
+		self.save
+	end
+	def set_levels
+		types = Type.atlas(atlas_id).includes(:tags)
+		types.sort! {|x,y| y.default_radius <=> x.default_radius}
+		i = types.length
+		types.each do |t|
+			t.level = i
+			t.save
+			i -= 1
+		end
+	end
 	def increase_count
 		@@count +=1
 	end
