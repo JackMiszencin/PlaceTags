@@ -4,3 +4,13 @@
 .radius_field{
 	width: 100px;
 }
+fieldset{
+	border: none;
+}
+legend{
+	position: relative;
+	left: -1.3%;
+	line-height: 200%;
+	font-style: italic;
+	margin-top: 30px;
+}

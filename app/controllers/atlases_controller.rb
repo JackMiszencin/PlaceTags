@@ -5,13 +5,18 @@ class AtlasesController < ApplicationController
 	def new
 		@atlas = Atlas.new
 		@atlas.user_id = current_user.id #Is this valid?!?!?
-		respond_to do |format|
-			format.html
-			format.json { render json: @atlas }
-		end
+		if request.post?
+      redirect_to @atlas
+    end
 	end
 	def create
 		@atlas = Atlas.new(params[:atlas])
+    @atlas.name = params[:name]
+    @atlas.save
+    @type = Type.new
+    @type.atlas_id = @atlas.id
+    @type.label = params[:label]
+    @type.save
 		@atlas.save
 		if request.post?
 			respond_to do |format|

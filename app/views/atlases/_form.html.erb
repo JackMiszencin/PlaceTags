@@ -1,21 +1,19 @@
-<%= form_for @atlas do |f| %>
+<%= form_tag({:action => 'create'}) do %>
 	<div class="control-group">
-		<%= f.label :name, :class => 'control-label' %>
+		<%= label_tag "name", "Atlas Name" %>
 		<div class="controls">
-			<%= f.text_field :name, :class => 'text_field' %>
+			<%= text_field_tag "name" %>
 		</div>
 	</div>
-	<%= f.hidden_field :user_id, :value => current_user.id %>
-	<% i = 10 %>
-	<%= f.fields_for :types do |t| %>
+	<%= hidden_field_tag "user_id", :value => current_user.id %>
+	<fieldset>
+		<legend>Tag Types:</legend>
 		<div class="control-group">
-			<%= t.label :label, "Type " + i.to_s %>
+			<%= label_tag "label", "New Tag Type" %>
 				<div class="controls">
-					<%= t.hidden_field :level, :value => i %>
-					<%= t.text_field :label, :class => 'text_field' %>
+					<%= text_field_tag "label" %>
 				</div>
 		</div>
-		<% i -= 1 %>
-	<% end %>
-	<%= f.submit "Create Atlas" %>
+	<fieldset>
+	<%= submit_tag "Create Atlas" %>
 <% end %>

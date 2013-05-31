@@ -1,5 +1,5 @@
 class Atlas < ActiveRecord::Base
-	attr_accessible :user_id, :name, :sizes, :sizes_attributes, :types, :types_attributes
+	attr_accessible :user_id, :name, :types, :types_attributes, :type_count
 	belongs_to :user
 	has_many :sizes, :dependent => :destroy
   has_many :types, :dependent => :destroy
@@ -20,15 +20,19 @@ class Atlas < ActiveRecord::Base
   		  end
       else
       end
-      if self.types == []
-        for i in (1..10)
-          t = Type.new
-          t.level = i
-          t.label = ""
-          self.types << t
-        end
-      else
-      end
+#      if self.types == []
+#        for i in (1..10)
+#          t = Type.new
+#          t.level = i
+#          t.label = ""
+#          self.types << t
+#        end
+#      else
+#      end
 
   	end
+    def add_type
+      t = Type.new
+      self.types << t
+    end
 end
