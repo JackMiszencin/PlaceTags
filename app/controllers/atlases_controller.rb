@@ -4,20 +4,28 @@ class AtlasesController < ApplicationController
 	end
 	def new
 		@atlas = Atlas.new
-		@atlas.user_id = current_user.id #Is this valid?!?!?
 		if request.post?
       redirect_to @atlas
     end
 	end
 	def create
 		@atlas = Atlas.new(params[:atlas])
+    @atlas.user_id = params[:user_id]
     @atlas.name = params[:name]
     @atlas.save
-    @type = Type.new
-    @type.atlas_id = @atlas.id
-    @type.label = params[:label]
-    @type.save
+    count = (params[:type_count]).to_i
+    i = 1
+    count.times do
+      param_name = "label" + i.to_s
+      param_name = param_name.to_sym
+      type = Type.new
+      type.atlas_id = @atlas.id
+      type.label = params[param_name]
+      type.save
+      i += 1
+    end
 		@atlas.save
+
 		if request.post?
 			respond_to do |format|
 				format.html { redirect_to @atlas }

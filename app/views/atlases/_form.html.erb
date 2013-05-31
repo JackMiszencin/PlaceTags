@@ -1,3 +1,4 @@
+<div>
 <%= form_tag({:action => 'create'}) do %>
 	<div class="control-group">
 		<%= label_tag "name", "Atlas Name" %>
@@ -5,15 +6,18 @@
 			<%= text_field_tag "name" %>
 		</div>
 	</div>
-	<%= hidden_field_tag "user_id", :value => current_user.id %>
+	<%= hidden_field_tag "user_id", current_user.id %>
+	<%= hidden_field_tag "type_count", 1 %>
 	<fieldset>
 		<legend>Tag Types:</legend>
 		<div class="control-group">
-			<%= label_tag "label", "New Tag Type" %>
+			<%= label_tag "label1", "New Tag Type" %>
 				<div class="controls">
-					<%= text_field_tag "label" %>
+					<%= text_field_tag "label1" %>
 				</div>
 		</div>
-	<fieldset>
+	</fieldset>
+	<button type="button" id = "addTypeField">Add Another Type</button><br><br>
 	<%= submit_tag "Create Atlas" %>
 <% end %>
+</div>
