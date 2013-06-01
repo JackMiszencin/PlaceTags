@@ -9,30 +9,8 @@ class Atlas < ActiveRecord::Base
 	accepts_nested_attributes_for :sizes, :allow_destroy => true
   accepts_nested_attributes_for :types, :allow_destroy => true
   
-  after_initialize :init
-  	def init
-      if self.sizes == []
-  		  for i in (1..10)
-  		    s = Size.new
-  		    s.level = i
-  		    s.label = ""
-  		    self.sizes << s
-  		  end
-      else
-      end
-#      if self.types == []
-#        for i in (1..10)
-#          t = Type.new
-#          t.level = i
-#          t.label = ""
-#          self.types << t
-#        end
-#      else
-#      end
-
-  	end
-    def add_type
-      t = Type.new
-      self.types << t
-    end
+  def add_type
+    t = Type.new
+    self.types << t
+  end
 end

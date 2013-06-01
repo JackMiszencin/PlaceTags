@@ -10,6 +10,14 @@ class Tag < ActiveRecord::Base
   accepts_nested_attributes_for :size
   accepts_nested_attributes_for :type
   attr_accessible :size_attributes, :lng, :lat, :title, :size_id, :radius, :id, :type_id
+  after_save :maintain_type
+  after_destroy :maintain_type
+
+  def maintain_type
+    t = self.type
+    t.set_default_radius
+    t.set_levels
+  end
 
   def self.atlas(index)
     where(:atlas_id => index)

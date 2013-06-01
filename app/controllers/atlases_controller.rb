@@ -24,6 +24,7 @@ class AtlasesController < ApplicationController
       type.save
       i += 1
     end
+    @atlas.types[0].set_levels
 		@atlas.save
 
 		if request.post?
