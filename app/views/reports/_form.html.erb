@@ -1,20 +1,25 @@
-<%= form_for [@atlas, @report] do |f| %>
-	<div class = "control-group">
+<%= form_tag ({:action => 'create'}) do %>
+	<div class = "control-group" id="old_tag_input">
 		<div class = "control-label">
-			<%= f.label :location %>
+			<%= label_tag "Location" %>
 		</div>
 		<div class = "controls">
-			<%= f.text_field :location %>
+			<%= select_tag "tags", options_from_collection_for_select(@tags, "id", "title", options={:prompt => "Select a tag"}) %>
+			<div class = "box-button" id = "new_tag">Assign To New Tag</div>
+			<br><br><br>
 		</div>
 	</div>
-	<%= f.hidden_field :atlas_id, :value => @atlas.id %>
+	<div id = "new_tag_form">
+		<%= render :partial => "tag_form" %>
+	</div>
+	<%= hidden_field_tag "atlas_id", @atlas.id %>
 	<div class = "control-group">
 		<div class = "control-label">
-			<%= f.label :event_name %>
+			<%= label_tag "Event Name" %>
 		</div>
 		<div class = "controls">
-			<%= f.text_field :event_name %>
+			<%= text_field_tag "event_name" %>
 		</div>
 	</div>
-	<%= f.submit "Create Report" %>
+	<%= submit_tag "Create Report" %>
 <% end %>

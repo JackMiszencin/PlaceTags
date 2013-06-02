@@ -5,18 +5,20 @@ class ReportsController < ApplicationController
 	def new
 		@atlas = Atlas.find(params[:atlas_id])
 		@report = Report.new
-		respond_to do |format|
-			format.html # new.html.erb
-			format.json { render json: @report }
+		@tags = Tag.atlas(params[:atlas_id])
+		@types = Type.atlas(params[:atlas_id])
+		if request.post?
+			redirect_to @report
 		end
 	end
 
 	def create
-		@report = Report.new(params[:report])
+		@report = Report.new
+		@tag = Tag.new
 		@report.save
 		if request.post?
 			@report.event_check
-			@report.tag_check
+
 			@report.save
 			respond_to do |format|
 				format.html { redirect_to atlas_report_path(params[:atlas_id], @report.id) }

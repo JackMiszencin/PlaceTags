@@ -33,3 +33,42 @@ a:hover {
 	background-color: black;
 	color: white;
 }
+.box-button{
+	position: absolute;
+	margin-top: 10px;
+	margin-bottom: 10px;
+	height: 20px;
+	width: auto;
+	border: solid black 1px;
+	border-radius: 3px;
+}
+#map-holder{
+	position: absolute;
+	top: 20px;
+	left: 10px;
+	width: 400px;
+	height: 400px;
+}
+#center-pane{
+	position: absolute;
+	left: 475px;
+	top: 20px;
+	width: 300px;
+}
+#right-pane{
+	position: absolute;
+	left: 800px;
+	top: 20px;
+}
+#map-canvas{
+	position: absolute;
+	left: 10px;
+	top: Opx;
+	width: 400px;
+	height: 400px;
+}
+#bottom-right{
+	position: absolute;
+	top: 300px;
+	left: 475px;
+}
