@@ -64,7 +64,7 @@
 		});
 	};
 	var newTagButton = document.getElementById("new_tag");
-	google.maps.event.addDomListener(newTagButton, 'click', initialize);
+	google.maps.event.addDomListenerOnce(newTagButton, 'click', initialize);
 </script>
 
 <div id = "center-pane">
@@ -92,6 +92,7 @@
 					<%= number_field_tag "radius", :in => 0 ... 100000, :step => 0.5, :value => 0 %>
 				</div>
 			</div>
+			<div class = "box-button" id = "old_tag">Use existing tag</div>
 	</div>
 	<div>
 		<% @types.each do |t| %>

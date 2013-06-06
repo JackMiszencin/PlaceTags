@@ -5,6 +5,7 @@ class Report < ActiveRecord::Base
 	belongs_to :atlas
   # attr_accessible :title, :body
   def event_check
+    self.save if self.id == nil
     @events = Event.all
     @events.each do |ev|
       if self.event_name == ev.name

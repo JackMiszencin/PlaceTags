@@ -14,19 +14,40 @@ class ReportsController < ApplicationController
 
 	def create
 		@report = Report.new
-		@tag = Tag.new
+		@atlas = Atlas.find_by_id(params[:atlas_id])
 		@report.save
-		if request.post?
-			@report.event_check
-
+		@report.event_name = params[:event_name]
+		@report.event_check
+		@report.atlas_id = @atlas.id
+		# This if logic tells us if the user is choosing an old or new tag
+		# based on whether or not an input field is present. We've rigged it
+		# to disappear and reappear based on what buttons the user pushes via
+		# the reports.js file.
+		if params[:old_tag_marker]
+			@report.tag_id = params[:tags]
 			@report.save
-			respond_to do |format|
-				format.html { redirect_to atlas_report_path(params[:atlas_id], @report.id) }
-				format.json {render json: @report, status: :created, location: @report}
-			end
 		else
-			format.html { render action: "new" }
-			format.json { render json: @report.errors, status: :unprocessable_entity }
+			@tag = Tag.new
+			#Assign new tag params to @tag
+			@tag.lng = params[:lng]
+			@tag.lat = params[:lat]
+			@tag.title = params[:title]				
+			@tag.radius = params[:radius]
+			@tag.atlas_id = params[:atlas_id]
+			@tag.type_id = params[:types]
+			@tag.save
+			# Above we save it to give it an id, and below we assign that id to report
+			@report.tag_id = @tag.id
+			@report.save
+		end
+		respond_to do |format|
+			if @report.save
+				format.html { redirect_to atlas_report_path(@atlas.id, @report) }
+				format.json {render json: @report, status: :created, location: @report}
+			else
+				format.html { render action: "new" }
+				format.json { render json: @report.errors, status: :unprocessable_entity }
+			end
 		end
 	end
 

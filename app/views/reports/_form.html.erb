@@ -1,10 +1,11 @@
 <%= form_tag ({:action => 'create'}) do %>
+	<%= hidden_field_tag "old_tag_marker", true %>
 	<div class = "control-group" id="old_tag_input">
 		<div class = "control-label">
 			<%= label_tag "Location" %>
 		</div>
 		<div class = "controls">
-			<%= select_tag "tags", options_from_collection_for_select(@tags, "id", "title", options={:prompt => "Select a tag"}) %>
+			<%= select_tag "tags", options_from_collection_for_select(@tags, "id", "title"), :prompt => "Select a tag" %>
 			<div class = "box-button" id = "new_tag">Assign To New Tag</div>
 			<br><br><br>
 		</div>

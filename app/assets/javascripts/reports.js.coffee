@@ -4,9 +4,14 @@
 $(window).load ->
   $("#new_tag_form").hide()
   $("#new_tag").on "click", ->
+    $("#tags").val(null)
     $("#old_tag_input").hide()
     $("#new_tag_form").show()
+    $("#old_tag_marker").remove()
 
   $("#old_tag").on "click", ->
+    $("#lat").remove()
+    $("#lng").remove()
     $("#new_tag_form").hide()
     $("#old_tag_input").show()
+    $("form").prepend("<input id='old_tag_marker' name='old_tag_marker' type='hidden' value='true'>")
