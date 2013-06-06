@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20130601001708) do
+ActiveRecord::Schema.define(:version => 20130606110930) do
 
   create_table "atlases", :force => true do |t|
     t.integer  "user_id"
@@ -36,7 +36,6 @@ ActiveRecord::Schema.define(:version => 20130601001708) do
   create_table "reports", :force => true do |t|
     t.datetime "created_at", :null => false
     t.datetime "updated_at", :null => false
-    t.string   "location"
     t.integer  "event_id"
     t.integer  "tag_id"
     t.integer  "atlas_id"

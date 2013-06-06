@@ -52,8 +52,7 @@ class AtlasesController < ApplicationController
   end
   def show
   	@atlas = Atlas.find(params[:id])
-  	@reports = @atlas.reports
-
+  	@reports = Report.where(:atlas_id => @atlas.id).includes(:tag)
   	respond_to do |format|
   		format.html
   		format.json { render json: @atlas }

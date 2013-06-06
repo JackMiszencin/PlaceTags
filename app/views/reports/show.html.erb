@@ -1,4 +1,4 @@
 <h2>Report Submitted</h2>
-<p>Location: <%= @report.location %> </p>
+<p>Location: <%= link_to @report.tag.title atlas_tag_path(@atlas.id, @report.tag) %> </p>
 <p>Event: <%= @report.event_name %> </p>
 <%= link_to "Atlas Dashboard", atlas_path(@atlas.id) %>

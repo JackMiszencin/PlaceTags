@@ -1,5 +1,5 @@
 class Report < ActiveRecord::Base
-	attr_accessible :location, :event, :atlas_id, :event_name
+	attr_accessible :event, :atlas_id, :event_name
 	belongs_to :tag
 	has_and_belongs_to_many :events
 	belongs_to :atlas
@@ -24,37 +24,5 @@ class Report < ActiveRecord::Base
     e.save
     return  
   end
-  def tag_check
-    @tags = Tag.all
-    @tags.each do |ta|
-      if self.location == ta.title
-        ta.reports << self
-        ta.save
-        self.save
-        return
-      else
-      end
-    end
-    t = Tag.new
-    t.title = self.location
-    t.atlas = self.atlas
-    t.reports << self
-    t.save
-    self.save
-    return  
-  end
 
-#  def event_check
-#  check = self.event_loop
-#  	if check
-#  		return
-#  	else
-#  		e = Event.new
-#  		e.name = self.event_name
-#  		self.events << e
-#      self.save
-#      e.save
-#  		return
-#  	end
-#  end
 end
