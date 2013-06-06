@@ -10,13 +10,13 @@
 	</thead>
 	<tbody>
 		<% @events.each do |e| %>
-		<tr><td><strong><%= e.name %><strong></td></tr>
+		<tr><td><strong><%= link_to e.name, atlas_event_path(@atlas.id, e) %><strong></td></tr>
 		<%- @reports = e.reports %>
 			<% @reports.each do |r| %>
 				<tr>
 					<td><em>Report:</em></td>
 					<td><%= r.event_name%></td>
-					<td><%= link_to r.location, atlas_tag_path(@atlas.id, r.tag_id) %></td>
+					<td><%= link_to r.tag.title, atlas_tag_path(@atlas.id, r.tag_id) %></td>
 				</tr>
 			<% end %>
 		<% end %>

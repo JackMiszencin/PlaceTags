@@ -49,6 +49,12 @@ a:hover {
 	width: 400px;
 	height: 400px;
 }
+#left-pane{
+	position: absolute;
+	left: 10px;
+	top: 20px;
+	width: 455px;
+}
 #center-pane{
 	position: absolute;
 	left: 475px;

@@ -15,10 +15,11 @@ class ReportsController < ApplicationController
 	def create
 		@report = Report.new
 		@atlas = Atlas.find_by_id(params[:atlas_id])
-		@report.save
 		@report.event_name = params[:event_name]
-		@report.event_check
 		@report.atlas_id = @atlas.id
+		@report.save
+		@report.event_check
+
 		# This if logic tells us if the user is choosing an old or new tag
 		# based on whether or not an input field is present. We've rigged it
 		# to disappear and reappear based on what buttons the user pushes via

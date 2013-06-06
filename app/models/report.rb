@@ -6,7 +6,7 @@ class Report < ActiveRecord::Base
   # attr_accessible :title, :body
   def event_check
     self.save if self.id == nil
-    @events = Event.all
+    @events = Event.where(:atlas_id => self.atlas_id)
     @events.each do |ev|
       if self.event_name == ev.name
         self.events << ev
@@ -18,7 +18,7 @@ class Report < ActiveRecord::Base
     end
     e = Event.new
     e.name = self.event_name
-    e.atlas = self.atlas
+    e.atlas_id = self.atlas_id
     self.events << e
     self.save
     e.save
