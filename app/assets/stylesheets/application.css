@@ -52,19 +52,28 @@ a:hover {
 #left-pane{
 	position: absolute;
 	left: 10px;
-	top: 20px;
+	top: 80px;
 	width: 455px;
 }
 #center-pane{
 	position: absolute;
 	left: 475px;
-	top: 20px;
+	top: 80px;
 	width: 300px;
 }
 #right-pane{
 	position: absolute;
 	left: 800px;
-	top: 20px;
+	top: 80px;
+}
+#title-block{
+	position: absolute;
+	top: 0;
+	width: 100%;
+	height: 45px;
+}
+#title-block h2{
+	text-align: center;
 }
 #map-canvas{
 	position: absolute;

@@ -1,0 +1,17 @@
+<h3>All Reports</h3>
+<table>
+	<thead>
+		<tr>
+			<th>Where</th>
+			<th>When</th>
+		</tr>
+	</thead>
+	<tbody>
+		<% @event.reports.each do |r| %>
+			<tr>
+				<td><%= r.tag.title %></td>
+				<td><%= r.format_date %></td>
+			</tr>
+		<% end %>
+	</tbody>
+</table>

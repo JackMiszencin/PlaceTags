@@ -12,7 +12,7 @@
 			<tr>
 				<td><%= r.event_name %></td>
 				<td><%= link_to r.tag.title, atlas_tag_path(@atlas.id, r.tag) %></td>
-				<td><%= r.created_at.strftime("%B %d, %Y, %k:%M:%S %p") %></td>
+				<td><%= r.format_date %></td>
 			</tr>
 		<% end %>
 	</tbody>

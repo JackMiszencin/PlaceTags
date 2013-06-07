@@ -22,6 +22,23 @@ class Tag < ActiveRecord::Base
   def self.atlas(index)
     where(:atlas_id => index)
   end
+
+  def recent_event_reports(x, event) #Gives number of reports for a specific event in last x hours.
+    tminus = x.hours.ago
+    count = 0
+    event_reports = event_reports(event)
+    event_reports.each do |r|
+      if r.created_at > tminus
+        count += 1
+      end
+    end
+    return count
+  end
+
+  def event_reports(event)
+    return event.reports.where(:tag_id => self.id)
+  end
+
   def self.search(query_string, atlas_id)
     @results = Tag.atlas(atlas_id).includes(:relatives, :roles, :type)
     @find_me = query_string

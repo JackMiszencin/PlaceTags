@@ -1,0 +1,21 @@
+	<h3>Locations of Reports</h3>
+	<table>
+		<thead>
+			<tr>
+				<th>PlaceTag</th>
+				<th>Last Report</th>
+				<th>Reports in Last 24 Hours</th>
+				<th>Total Reports</th>
+			</tr>
+		</thead>
+		<tbody>
+			<% @tags.each do |t| %>
+				<tr>
+					<td><%= t.title %></td>
+					<td><%= t.reports.last.format_date %></td>
+					<td><%= t.recent_event_reports(24, @event) %></td>
+					<td><%= t.event_reports(@event).length %></td>
+				</tr>
+			<% end %>
+		</tbody>
+	</table>
