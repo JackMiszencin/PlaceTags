@@ -112,6 +112,12 @@
 	<div id = "center-pane">
 		<%= render :partial => 'tags_table' %>
 		<%= render :partial => 'tags_data' %>
+		<br>
+		<br>
+		<%= link_to "Atlas Dashboard", atlas_path(params[:atlas_id]) %><br>
+		<%= link_to "Tags for this atlas", atlas_tags_path(params[:atlas_id]) %><br>
+		<%=link_to "Events for this atlas", atlas_events_path(params[:atlas_id])%>
+
 	</div>
 	<div id = "right-pane">
 		<%= render :partial => 'reports_table' %>

@@ -10,7 +10,7 @@
 	<tbody>
 		<% @reports.each do |r| %>
 			<tr>
-				<td><%= r.event_name %></td>
+				<td><%= link_to r.event_name, atlas_event_path(@atlas.id, r.events.first.id) %></td>
 				<td><%= link_to r.tag.title, atlas_tag_path(@atlas.id, r.tag) %></td>
 				<td><%= r.format_date %></td>
 			</tr>

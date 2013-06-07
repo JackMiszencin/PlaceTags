@@ -7,7 +7,7 @@
 		<thead>
 			<tr>
 				<th>Name</th>
-				<th>Size Type</th>
+				<th>Type</th>
 				<th>Size Level</th>
 				<th>Longitude</th>
 				<th>Latitutde</th>
@@ -20,19 +20,19 @@
 				<tr>
 					<td><%= link_to t.title, atlas_tag_path(@atlas.id, t) %></td>
 					<td>
-						<% if t.size == nil %>
+						<% if t.type == nil %>
 							<%- need = true %>
 							<%= "?" %>
 						<% else %>
-							<%= t.size.label %>
+							<%= t.type.label %>
 						<% end %>
 					</td>
 					<td>
-						<% if t.size == nil %>
+						<% if t.type == nil %>
 							<%- need = true %>
 							<%= "?" %>
 						<% else %>
-							<%= t.size.level.to_s %>
+							<%= t.type.level.to_s %>
 						<% end %>
 					</td>
 					<td>

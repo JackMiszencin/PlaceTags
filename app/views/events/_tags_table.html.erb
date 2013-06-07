@@ -11,7 +11,7 @@
 		<tbody>
 			<% @tags.each do |t| %>
 				<tr>
-					<td><%= t.title %></td>
+					<td><%= link_to t.title, atlas_tag_path(params[:atlas_id], t) %></td>
 					<td><%= t.reports.last.format_date %></td>
 					<td><%= t.recent_event_reports(24, @event) %></td>
 					<td><%= t.event_reports(@event).length %></td>

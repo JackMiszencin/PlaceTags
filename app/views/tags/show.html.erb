@@ -1,3 +1,4 @@
+<div id = "title-block"><h2><%= @tag.title%></h2></div>
 <div id = "center-pane">
 	<h2>Tag Profile</h2>
 
@@ -5,10 +6,7 @@
 		Latitude: <span id = "lat_span"><%= @tag.lat.to_s %></span><br>
 		Longitude: <span id = "lng_span"><%= @tag.lng.to_s %></span><br>
 		Radius: <span id = "radius_span"><%= @tag.radius.to_s %></span> meters</p>
-	<br>
-	<br>
-	<%= link_to "Atlas Dashboard", atlas_path(params[:atlas_id]) %><br>
-	<%= link_to "Tags for this atlas", atlas_tags_path(params[:atlas_id]) %>
+
 </div>
 <div id = "right-pane">
 	<h2>Related Tags</h2>
@@ -23,7 +21,7 @@
 		</thead>
 		<tbody>
 			<% @events.each do |e| %>
-				<tr><td><strong><%= e.name %><strong></td></tr>
+				<tr><td><strong><%= link_to e.name, atlas_event_path(params[:atlas_id], e.id)%><strong></td></tr>
 				<% e.reports.each do |r| %>
 					<%- if r.tag_id == @tag.id %>
 						<tr>
@@ -35,9 +33,16 @@
 			<% end %>
 		</tbody>
 	</table>
+	<br>
+	<br>
+		<%= link_to "Atlas Dashboard", atlas_path(params[:atlas_id]) %><br>
+		<%= link_to "Tags for this atlas", atlas_tags_path(params[:atlas_id]) %>
+
 </div>
-<div id = "map-holder">
-	<div id = "map-canvas"></div>
+<div id = "left-pane">
+	<div id = "map-holder">
+		<div id = "map-canvas"></div>
+	</div>
 </div>
 
 <script type="text/javascript">
