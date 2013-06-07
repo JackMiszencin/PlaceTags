@@ -57,14 +57,20 @@
 	  // Placing down circles and markers
 		var circleRadius = 0;
 		var markerPoint = new google.maps.LatLng(0,0);
+		var contentString = "";
+		var windowOffset = new google.maps.Size(2.5,2.5);
+		var tagTitle = "";
+		var anchorMark = new google.maps.Point(1,1);
 		function addMarker(){
-			marker = new google.maps.Marker({
+			var marker = new google.maps.Marker({
 				map:map,
 				draggable:false,
 				position:markerPoint,
-				animation: null
+				animation: null,
+				title:tagTitle,
+				anchorPoint:anchorMark
 			});
-			markerCircle = new google.maps.Circle({
+			var markerCircle = new google.maps.Circle({
 				map:map,
 				center:markerPoint,
 				radius:circleRadius,
@@ -73,10 +79,20 @@
 				strokeColor:"#EEEEEE",
 				strokeOpacity:1.0
 			});
+			var infowindow = new google.maps.InfoWindow({
+				content:contentString,
+				maxWidth:20
+			});
+			google.maps.event.addListener(marker, 'click', function(){
+				console.log("blah");
+				infowindow.open(map, marker);
+			});
 		};
 		for(var i=0; i<=tagCount; i++){
 			circleRadius = tagsArray[i]['radius'];
 			markerPoint = new google.maps.LatLng(tagsArray[i]['lat'], tagsArray[i]['lng']);
+			contentString = "Title: "+tagsArray[i]['title']+"<br>Type: "+tagsArray[i]['type']
+			tagTitle = tagsArray[i]['title'];
 			addMarker();
 		}
 		if(tagCount > 0){
