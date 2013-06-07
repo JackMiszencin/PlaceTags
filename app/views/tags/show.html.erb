@@ -42,41 +42,7 @@
 
 <script type="text/javascript">
 	function initialize() {
-		
-		// Setting up the map parameters based on what tags we're mapping.
-		var tagsArray = [];
-		var highLat = 0;
-		var lowLat = 0;
-		var highLng = 0;
-		var lowLng = 0;
-		var tagCount = Number($("#tag_count").val());
-		for (var i=0; i<=tagCount; i++){
-			tagHash = {};
-			tagHash['lat'] = Number($("#lat" + String(i)).val());
-			if(tagHash['lat'] > highLat){
-				highLat = tagHash['lat'];
-			}
-			if(tagHash['lat'] < lowLat){
-				lowLat = tagHash['lat'];
-			}
-			tagHash['lng'] = Number($("#lng" + String(i)).val());
-			if(tagHash['lng'] > highLng){
-				highLng = tagHash['lng'];
-			}
-			if(tagHash['lng'] < highLng){
-				lowLng = tagHash['lng'];
-			}
-			tagHash['radius'] = Number($("#radius" + String(i)).val());
-			tagHash['title'] = $("#title" + String(i)).val();
-			tagHash['type'] = $("#type" + String(i)).val();
-			tagsArray[i] = tagHash;
-		}
-		var NE = new google.maps.LatLng(latHigh, lngHigh);
-		var SW = new google.maps.LatLng(latLow, lngLow);
-		var mapScope = new google.maps LatLngBounds(SW, NE);
-		var	markerPoint = mapScope.getCenter();
-
-
+		var	markerPoint = new google.maps.LatLng(Number($("#lat_span").text()), Number($("#lng_span").text()));
 		var radiusDefault = Number($("#radius_span").text());
 	  var mapOptions = {
 	    center: markerPoint,
@@ -109,5 +75,4 @@
 
 
 </script>
-
 

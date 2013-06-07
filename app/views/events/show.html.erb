@@ -5,41 +5,89 @@
 	<h3>This event has no PlaceTags or reports.</h3>
 	<%= link_to "Create Report", new_atlas_report_path(params[:atlas_id]) %>
 <%- else %>
-	<script type="text/javascript">
-		function initialize() {
-			var	markerPoint = new google.maps.LatLng(Number($("#lat_span").text()), Number($("#lng_span").text()));
-			var radiusDefault = Number($("#radius_span").text());
-		  var mapOptions = {
-		    center: markerPoint,
-		    zoom: 8,
-		    mapTypeId: google.maps.MapTypeId.HYBRID
-		  };
-		  var map = new google.maps.Map(document.getElementById("map-canvas"), mapOptions);
-			function addMarker(){
-				marker = new google.maps.Marker({
-					map:map,
-					draggable:false,
-					position:markerPoint,
-					animation: null
-				});
-				markerCircle = new google.maps.Circle({
-					map:map,
-					center:markerPoint,
-					radius:radiusDefault,
-					fillColor:"#EEEEEE",
-					fillOpacity:0.5,
-					strokeColor:"#EEEEEE",
-					strokeOpacity:1.0
-				});
-			};
-			addMarker();
+<script type="text/javascript">
+	function initialize() {
+		
+		// Setting up the map parameters based on what tags we're mapping.
+		var tagsArray = [];
+		var tagCount = Number($("#tag_count").val());
+		var highLat = Number($("#lat" + String(0)).val());;
+		var lowLat = Number($("#lat" + String(0)).val());;
+		var highLng = Number($("#lng" + String(0)).val());;
+		var lowLng = Number($("#lng" + String(0)).val());;
+		console.log(tagCount);
+		for (var i=0; i<=tagCount; i++){
+			tagHash = {};
+			tagHash['lat'] = Number($("#lat" + String(i)).val());
+			if(tagHash['lat'] > highLat){
+				highLat = tagHash['lat'];
+			}
+			if(tagHash['lat'] < lowLat){
+				lowLat = tagHash['lat'];
+			}
+			tagHash['lng'] = Number($("#lng" + String(i)).val());
+			if(tagHash['lng'] > highLng){
+				highLng = tagHash['lng'];
+			}
+			if(tagHash['lng'] < highLng){
+				lowLng = tagHash['lng'];
+			}
+			console.log(highLat);
+			console.log(lowLat);
+			console.log(highLng);
+			console.log(lowLng);
+			tagHash['radius'] = Number($("#radius" + String(i)).val());
+			tagHash['title'] = $("#title" + String(i)).val();
+			tagHash['type'] = $("#type" + String(i)).val();
+			tagsArray[i] = tagHash;
+		}
+		var NE = new google.maps.LatLng(highLat, highLng);
+		var SW = new google.maps.LatLng(lowLat, lowLng);
+		var mapScope = new google.maps.LatLngBounds(SW, NE);
+		var	mapPoint = mapScope.getCenter();
 
+		// Putting the map in place
+	  var mapOptions = {
+	    center: mapPoint,
+	    zoom: 8,
+	    mapTypeId: google.maps.MapTypeId.HYBRID
+	  };
+	  var map = new google.maps.Map(document.getElementById("map-canvas"), mapOptions);
+
+	  // Placing down circles and markers
+		var circleRadius = 0;
+		var markerPoint = new google.maps.LatLng(0,0);
+		function addMarker(){
+			marker = new google.maps.Marker({
+				map:map,
+				draggable:false,
+				position:markerPoint,
+				animation: null
+			});
+			markerCircle = new google.maps.Circle({
+				map:map,
+				center:markerPoint,
+				radius:circleRadius,
+				fillColor:"#EEEEEE",
+				fillOpacity:0.5,
+				strokeColor:"#EEEEEE",
+				strokeOpacity:1.0
+			});
 		};
+		for(var i=0; i<=tagCount; i++){
+			circleRadius = tagsArray[i]['radius'];
+			markerPoint = new google.maps.LatLng(tagsArray[i]['lat'], tagsArray[i]['lng']);
+			addMarker();
+		}
+		if(tagCount > 0){
+			map.fitBounds(mapScope);
+		}
+	};
 
-		google.maps.event.addDomListener(window, 'load', initialize);
+	google.maps.event.addDomListener(window, 'load', initialize);
 
 
-	</script>
+</script>
 	<div id = "left-pane">
 		<div id = "map-holder">
 			<div id = "map-canvas"></div>
