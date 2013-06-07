@@ -1,64 +1,68 @@
-<h2>Current Place Tags</h2>
+<div id = "title-block">
+	<h2>Current Place Tags</h2>
+</div>
 <div id ="right-pane"><%= render :partial => "search" %></div>
-<table>
-	<thead>
-		<tr>
-			<th>Name</th>
-			<th>Size Type</th>
-			<th>Size Level</th>
-			<th>Longitude</th>
-			<th>Latitutde</th>
-			<th></th>
-		</tr>
-	</thead>
-	<tbody>
-		<% @tags.each do |t| %>
-			<%- need = false #Tells the table if it should post a "please edit" prompt %> 
+<div id ="wide-middle">
+	<table>
+		<thead>
 			<tr>
-				<td><%= link_to t.title, atlas_tag_path(@atlas.id, t) %></td>
-				<td>
-					<% if t.size == nil %>
-						<%- need = true %>
-						<%= "?" %>
-					<% else %>
-						<%= t.size.label %>
-					<% end %>
-				</td>
-				<td>
-					<% if t.size == nil %>
-						<%- need = true %>
-						<%= "?" %>
-					<% else %>
-						<%= t.size.level.to_s %>
-					<% end %>
-				</td>
-				<td>
-					<% if t.lng == nil %>
-						<%- need = true %>
-						<%= "?" %>
-					<% else %>
-						<%= t.lng.to_s %>
-					<% end %>
-				</td>
-				<td>
-					<% if t.lat == nil %>
-						<%- need = true %>
-						<%= "?" %>
-					<% else %>
-						<%= t.lat.to_s %>
-					<% end %>
-				</td>
-				<td>
-					<% if need == true %>
-						<em><%= "Missing information. Please update. " %></em>
-					<%else%>
-					<%end%>
-					<%= link_to "EDIT", edit_atlas_tag_path(t.atlas_id, t.id) %>
-				</td>
+				<th>Name</th>
+				<th>Size Type</th>
+				<th>Size Level</th>
+				<th>Longitude</th>
+				<th>Latitutde</th>
+				<th></th>
 			</tr>
-		<% end %>
-	</tbody>
-</table>
-<br>
-<%= link_to "Atlas Dashboard", atlas_path(params[:atlas_id]) %><br>
-<%= link_to "Create Tag", new_atlas_tag_path(params[:atlas_id]) %>
+		</thead>
+		<tbody>
+			<% @tags.each do |t| %>
+				<%- need = false #Tells the table if it should post a "please edit" prompt %> 
+				<tr>
+					<td><%= link_to t.title, atlas_tag_path(@atlas.id, t) %></td>
+					<td>
+						<% if t.size == nil %>
+							<%- need = true %>
+							<%= "?" %>
+						<% else %>
+							<%= t.size.label %>
+						<% end %>
+					</td>
+					<td>
+						<% if t.size == nil %>
+							<%- need = true %>
+							<%= "?" %>
+						<% else %>
+							<%= t.size.level.to_s %>
+						<% end %>
+					</td>
+					<td>
+						<% if t.lng == nil %>
+							<%- need = true %>
+							<%= "?" %>
+						<% else %>
+							<%= t.lng.to_s %>
+						<% end %>
+					</td>
+					<td>
+						<% if t.lat == nil %>
+							<%- need = true %>
+							<%= "?" %>
+						<% else %>
+							<%= t.lat.to_s %>
+						<% end %>
+					</td>
+					<td>
+						<% if need == true %>
+							<em><%= "Missing information. Please update. " %></em>
+						<%else%>
+						<%end%>
+						<%= link_to "EDIT", edit_atlas_tag_path(t.atlas_id, t.id) %>
+					</td>
+				</tr>
+			<% end %>
+		</tbody>
+	</table>
+	<br>
+	<%= link_to "Atlas Dashboard", atlas_path(params[:atlas_id]) %><br>
+	<%= link_to "Create Tag", new_atlas_tag_path(params[:atlas_id]) %>
+</div>

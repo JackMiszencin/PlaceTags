@@ -35,7 +35,16 @@ class ReportsController < ApplicationController
 			@tag.title = params[:title]				
 			@tag.radius = params[:radius]
 			@tag.atlas_id = params[:atlas_id]
-			@tag.type_id = params[:types]
+			if params[:new_type]
+				t = Type.new
+				t.label = params[:new_type]
+				t.atlas_id = @atlas.id
+				t.save
+				@tag.type_id = t.id
+			else
+				@tag.type_id = params[:types]
+			end
+
 			@tag.save
 			# Above we save it to give it an id, and below we assign that id to report
 			@report.tag_id = @tag.id

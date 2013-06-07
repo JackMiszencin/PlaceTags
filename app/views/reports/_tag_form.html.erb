@@ -78,13 +78,22 @@
 				<%= label_tag "Title" %>
 				<div class="controls">
 					<%= text_field_tag "title" %>
+					<br>
 				</div>
 			</div>
-			<div class = "control-group">
+			<div class = "control-group" id = "old-type-form">
 				<%= label_tag "Type" %>
 				<div class="controls">
-					<%= select_tag "types", options_from_collection_for_select(@types, "id", "label", options={:prompt => "Select a type"}) %>
+					<%= select_tag "types", options_from_collection_for_select(@types, "id", "label"), :prompt => "Select a type" %>
 				</div>
+				<div class = "box-button", id = "new-type-button" >Create a new type</div>
+				<br>
+				<br>
+			</div>
+			<div class = "control-group" id = "new-type-form">
+				<div class = "box-button", id = "old-type-button">Use old type</div>
+				<br>
+				<br>
 			</div>
 			<div class = "control-group">
 				<%= label_tag "Radius" %>

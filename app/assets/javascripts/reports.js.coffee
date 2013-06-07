@@ -10,8 +10,16 @@ $(window).load ->
     $("#old_tag_marker").remove()
 
   $("#old_tag").on "click", ->
-    $("#lat").remove()
-    $("#lng").remove()
     $("#new_tag_form").hide()
     $("#old_tag_input").show()
     $("form").prepend("<input id='old_tag_marker' name='old_tag_marker' type='hidden' value='true'>")
+
+  $("#new-type-form").hide()
+  $("#new-type-button").on "click", ->
+    $("#old-type-form").hide()
+    $("#new-type-form").show()
+    $("#new-type-form").prepend("<div id = 'new-type-input'><label>New Type</label><br><input id='new_type' name='new_type' type='text'></div>")
+  $("#old-type-button").on "click", ->
+    $("#old-type-form").show()
+    $("#new-type-form").hide()
+    $("#new-type-input").remove()
