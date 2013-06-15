@@ -12,6 +12,7 @@ class Tag < ActiveRecord::Base
   attr_accessible :size_attributes, :lng, :lat, :title, :size_id, :radius, :id, :type_id
   after_save :maintain_type
   after_destroy :maintain_type
+  validates :title, :presence => true
 
   def maintain_type
     t = self.type

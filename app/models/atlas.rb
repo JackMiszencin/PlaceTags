@@ -8,6 +8,7 @@ class Atlas < ActiveRecord::Base
   has_many :tags, :dependent => :destroy
 	accepts_nested_attributes_for :sizes, :allow_destroy => true
   accepts_nested_attributes_for :types, :allow_destroy => true
+  validates_presence_of :name, :message => "You must give a name to this atlas."
   
   def add_type
     t = Type.new
