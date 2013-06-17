@@ -10,6 +10,7 @@
  *
  *= require_self
  *= require_tree .
+ *= require formtastic
  */
 table {
 	border-collapse: collapse;

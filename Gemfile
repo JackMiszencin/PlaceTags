@@ -21,6 +21,9 @@ group :assets do
 end
 
 gem 'dynamic_form'
+gem 'formtastic'
+gem "nested_form", :git => 'https://github.com/ryanb/nested_form.git'
+
 gem 'jquery-rails'
 
 # To use ActiveModel has_secure_password

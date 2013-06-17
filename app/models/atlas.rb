@@ -6,7 +6,6 @@ class Atlas < ActiveRecord::Base
   has_many :reports, :dependent => :destroy
   has_many :events, :dependent => :destroy
   has_many :tags, :dependent => :destroy
-	accepts_nested_attributes_for :sizes, :allow_destroy => true
   accepts_nested_attributes_for :types, :allow_destroy => true
   validates_presence_of :name, :message => "You must give a name to this atlas."
   

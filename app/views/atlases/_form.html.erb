@@ -1,30 +1,17 @@
 <div>
-	<% if flash[:errors] %>
-		<% flash[:errors].each do |e| %>
-			<p><%= e %></p>
-		<% end %>
-		<br>
-		<br>
-	<%end%>
-	<%= form_tag({:action => 'create'}) do %>
+	<%= nested_form_for @atlas do |f| %>
 		<div class="control-group">
-			<%= label_tag "name", "Atlas Name" %>
+			<%= f.label :name %>
 			<div class="controls">
-				<%= text_field_tag "name" %>
+				<%= f.text_field :name %>
 			</div>
 		</div>
-		<%= hidden_field_tag "user_id", current_user.id %>
-		<%= hidden_field_tag "type_count", 1 %>
-		<fieldset>
-			<legend>Tag Types:</legend>
-			<div class="control-group">
-				<%= label_tag "label1", "New Tag Type" %>
-					<div class="controls">
-						<%= text_field_tag "label1" %>
-					</div>
-			</div>
-		</fieldset>
-		<button type="button" id = "addTypeField">Add Another Type</button><br><br>
-		<%= submit_tag "Create Atlas" %>
+		<%= hidden_field_tag "atlas_user_id", current_user.id, :name => "atlas[user_id]" %>
+		<%= f.fields_for :types do |type| %>
+			<%= type.text_field :label %>
+			<%= type.link_to_remove "Remove this type" %>
+		<% end %>
+		<p><%= f.link_to_add "Add another type", :types %></p>
+		<%= f.submit "Create Atlas" %>
 	<% end %>
 </div>
