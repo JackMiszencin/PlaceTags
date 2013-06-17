@@ -1,7 +1,8 @@
 class Report < ActiveRecord::Base
-	attr_accessible :event, :atlas_id, :event_name
+	attr_accessible :event, :atlas_id, :event_name, :tag_id, :tag, :tag_attributes
 	belongs_to :tag
 	has_and_belongs_to_many :events
+  accepts_nested_attributes_for :tag
 	belongs_to :atlas
   # attr_accessible :title, :body
   def format_date

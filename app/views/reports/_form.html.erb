@@ -1,26 +1,123 @@
-<%= form_tag ({:action => 'create'}) do %>
+<%= semantic_form_for [:atlas, @report] do |f| %>
 	<%= hidden_field_tag "old_tag_marker", true %>
+	<div class = "control-group">
+			<%= f.input :event_name %>
+	</div>
 	<div class = "control-group" id="old_tag_input">
-		<div class = "control-label">
-			<%= label_tag "Location" %>
-		</div>
 		<div class = "controls">
-			<%= select_tag "tags", options_from_collection_for_select(@tags, "id", "title"), :prompt => "Select a tag" %>
+			<%= f.input :tag_id, :as => :select, :collection => @tags, :label => "Location" %>
+			<%= hidden_field_tag "report_atlas_id", @atlas.id, :name => "report[atlas_id]" %>
 			<div class = "box-button" id = "new_tag">Assign To New Tag</div>
 			<br><br><br>
 		</div>
 	</div>
 	<div id = "new_tag_form">
-		<%= render :partial => "tag_form" %>
+	<script type="text/javascript">
+		var radiusDefault = Number($("#report_tag_attributes_radius").val());
+		function initialize() {
+		  var mapOptions = {
+		    center: new google.maps.LatLng(-34.397, 150.644),
+		    zoom: 8,
+		    mapTypeId: google.maps.MapTypeId.HYBRID
+		  };
+		  var map = new google.maps.Map(document.getElementById("map-canvas"), mapOptions);
+			function addMarker(event){
+				markerPoint = event.latLng
+				marker = new google.maps.Marker({
+					map:map,
+					draggable:true,
+					position:markerPoint,
+					animation: null
+				});
+				function addCircle(){
+					radiusDefault = Number($("#report_tag_attributes_radius").val());
+					markerCircle = new google.maps.Circle({
+						map:map,
+						center:markerPoint,
+						radius:radiusDefault,
+						fillColor:"#EEEEEE",
+						fillOpacity:0.5,
+						strokeColor:"#EEEEEE",
+						strokeOpacity:1.0
+					});
+					$("#report_tag_attributes_type_id").on('click', function(){
+						var typeId = String($("#report_tag_attributes_type_id").val());
+						typeId = "#" + typeId;
+						markerCircle.setRadius(Number($(typeId).val()))
+					});
+				};
+				google.maps.event.addListenerOnce(map, 'click', addCircle);
+				google.maps.event.trigger(map, 'click')
+				function recenterCircle(){
+					var newLatLng = marker.getPosition();
+					markerCircle.setCenter(newLatLng);
+					$("#report_tag_attributes_lat").val(newLatLng.lat());
+					$("#report_tag_attributes_lng").val(newLatLng.lng());				
+				};
+				google.maps.event.addListener(marker, 'drag', recenterCircle)
+				var lat = markerPoint.lat();
+				var lng = markerPoint.lng();
+				$("form").prepend("<input type = 'hidden' id = 'report_tag_attributes_lat' name = 'report[tag][lat]' value = " + lat + " >");
+				$("form").prepend("<input type = 'hidden' id = 'report_tag_attributes_lng' name = 'report[tag][lng]' value = " + lng + " >");
+				$("#report_tag_attributes_radius").on("click", function(){
+					newRadius = Number($(this).val());
+					markerCircle.setRadius(newRadius);
+				});
+				$("#report_tag_attributes_radius").on("keyup", function(){
+					rFeed = String($(this).val());
+					newRadius = Number(rFeed);
+					markerCircle.setRadius(newRadius);
+				});
+			};
+			google.maps.event.addListenerOnce(map, 'click', addMarker);
+			$("#report_tag_attributes_type_id").on('click', function(){
+				var typeId = String($("#report_tag_attributes_type_id").val());
+				typeId = "#" + typeId;
+				radiusDefault = Number($(typeId).val());
+				$("#report_tag_attributes_radius").val(radiusDefault);
+			});
+		};
+		var newTagButton = document.getElementById("new_tag");
+		google.maps.event.addDomListenerOnce(newTagButton, 'click', initialize);
+	</script>
+
+	<div id = "center-pane">
+		<div id = "map-holder">
+			<div id = "map-canvas"></div>
+		</div>
 	</div>
-	<%= hidden_field_tag "atlas_id", @atlas.id %>
-	<div class = "control-group">
-		<div class = "control-label">
-			<%= label_tag "Event Name" %>
+		<div id="right-pane">
+				<h3>New Tag</h3>
+				<%= f.semantic_fields_for @report.tag do |tag| %>
+					<%= tag.inputs do %>
+						<%= tag.input :title %>
+						<div class = "control-group" id = "old-type-form">
+							<%= tag.input :type_id, :as => :select, :collection => @types.map{|t| [t.label, t.id]} %>
+							<div class = "box-button", id = "new-type-button" >Create a new type</div>
+							<br>
+							<br>
+						</div>
+						<div class = "control-group" id = "new-type-form">
+							<label>New Type</label>
+							<%= tag.semantic_fields_for @report.tag.type do |type| %>
+								<%= type.input :label %>
+									<div class = "box-button", id = "old-type-button">Use old type</div>
+									<br>
+									<br>
+							<% end %>
+						</div>
+					<% end %>
+					<%= tag.input :radius, :as => :number, :in => 0 ... 100000, :step => 0.5, :value => 0 %>
+				<% end %>
+				<br>
+				<br>
+				<div class = "box-button", id = "old_tag">Use existing tag</div>
 		</div>
-		<div class = "controls">
-			<%= text_field_tag "event_name" %>
-		</div>
+		<div>
+			<% @types.each do |t| %>
+			  <%= hidden_field_tag t.id, t.average_radius %>
+			<% end %>
+		</div>	
 	</div>
 	<%= submit_tag "Create Report" %>
 <% end %>

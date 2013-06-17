@@ -7,49 +7,15 @@ class ReportsController < ApplicationController
 		@report = Report.new
 		@tags = Tag.atlas(params[:atlas_id])
 		@types = Type.atlas(params[:atlas_id])
-		if request.post?
-			redirect_to @report
-		end
+		@report.build_tag
+		@report.tag.build_type
+
 	end
 
 	def create
-		@report = Report.new
+		@report = Report.new(params[:report])
 		@atlas = Atlas.find_by_id(params[:atlas_id])
-		@report.event_name = params[:event_name]
-		@report.atlas_id = @atlas.id
 		@report.save
-		@report.event_check
-
-		# This if logic tells us if the user is choosing an old or new tag
-		# based on whether or not an input field is present. We've rigged it
-		# to disappear and reappear based on what buttons the user pushes via
-		# the reports.js file.
-		if params[:old_tag_marker]
-			@report.tag_id = params[:tags]
-			@report.save
-		else
-			@tag = Tag.new
-			#Assign new tag params to @tag
-			@tag.lng = params[:lng]
-			@tag.lat = params[:lat]
-			@tag.title = params[:title]				
-			@tag.radius = params[:radius]
-			@tag.atlas_id = params[:atlas_id]
-			if params[:new_type]
-				t = Type.new
-				t.label = params[:new_type]
-				t.atlas_id = @atlas.id
-				t.save
-				@tag.type_id = t.id
-			else
-				@tag.type_id = params[:types]
-			end
-
-			@tag.save
-			# Above we save it to give it an id, and below we assign that id to report
-			@report.tag_id = @tag.id
-			@report.save
-		end
 		respond_to do |format|
 			if @report.save
 				format.html { redirect_to atlas_report_path(@atlas.id, @report) }

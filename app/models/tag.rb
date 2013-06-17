@@ -9,7 +9,7 @@ class Tag < ActiveRecord::Base
   has_many :relatives, :through => :roles
   accepts_nested_attributes_for :size
   accepts_nested_attributes_for :type
-  attr_accessible :size_attributes, :lng, :lat, :title, :size_id, :radius, :id, :type_id
+  attr_accessible :size_attributes, :lng, :lat, :title, :size_id, :radius, :id, :type_id, :type_attributes
   after_save :maintain_type
   after_destroy :maintain_type
   validates :title, :presence => true

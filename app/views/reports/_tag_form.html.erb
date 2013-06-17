@@ -74,34 +74,27 @@
 </div>
 	<div id="right-pane">
 			<h3>New Tag</h3>
-			<div class = "control-group">
-				<%= label_tag "Title" %>
-				<div class="controls">
-					<%= text_field_tag "title" %>
-					<br>
-				</div>
-			</div>
-			<div class = "control-group" id = "old-type-form">
-				<%= label_tag "Type" %>
-				<div class="controls">
-					<%= select_tag "types", options_from_collection_for_select(@types, "id", "label"), :prompt => "Select a type" %>
-				</div>
-				<div class = "box-button", id = "new-type-button" >Create a new type</div>
-				<br>
-				<br>
-			</div>
-			<div class = "control-group" id = "new-type-form">
-				<div class = "box-button", id = "old-type-button">Use old type</div>
-				<br>
-				<br>
-			</div>
-			<div class = "control-group">
-				<%= label_tag "Radius" %>
-				<div class="controls">
-					<%= number_field_tag "radius", :in => 0 ... 100000, :step => 0.5, :value => 0 %>
-				</div>
-			</div>
-			<div class = "box-button" id = "old_tag">Use existing tag</div>
+			<%= f.semantic_fields_for :tag do |tag| %>
+				<%= tag.inputs do %>
+					<%= tag.input :title %>
+					<div class = "control-group" id = "old-type-form">
+						<%= tag.input :type_id, :as => :select, :collection => @types %>
+						<div class = "box-button", id = "new-type-button" >Create a new type</div>
+						<br>
+						<br>
+					</div>
+					<div class = "control-group" id = "new-type-form">
+						<%= tag.semantic_fields_for :type do |type| %>
+							<%= type.input :label %>
+								<div class = "box-button", id = "old-type-button">Use old type</div>
+								<br>
+								<br>
+						<% end %>
+					</div>
+				<% end %>
+				<%= tag.input :radius, :as => :number, :in => 0 ... 100000, :step => 0.5, :value => 0 %>
+			<% end %>
+
 	</div>
 	<div>
 		<% @types.each do |t| %>

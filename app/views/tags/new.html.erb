@@ -45,11 +45,11 @@
 			var lng = markerPoint.lng();
 			$("form").prepend("<input type = 'hidden' id = 'tag_lat' name = 'tag[lat]' value = " + lat + " >");
 			$("form").prepend("<input type = 'hidden' id = 'tag_lng' name = 'tag[lng]' value = " + lng + " >");
-			$("#radius").on("click", function(){
+			$("#tag_radius").on("click", function(){
 				newRadius = Number($(this).val());
 				markerCircle.setRadius(newRadius);
 			});
-			$("#radius").on("keyup", function(){
+			$("#tag_radius").on("keyup", function(){
 				rFeed = String($(this).val());
 				newRadius = Number(rFeed);
 				markerCircle.setRadius(newRadius);
@@ -60,7 +60,7 @@
 			var typeId = String($("#types").val());
 			typeId = "#" + typeId;
 			radiusDefault = Number($(typeId).val());
-			$("#radius").val(radiusDefault);
+			$("#tag_radius").val(radiusDefault);
 		});
 	};
 
