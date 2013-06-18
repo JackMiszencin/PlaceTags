@@ -1,4 +1,4 @@
-<%= semantic_form_for [:atlas, @report] do |f| %>
+<%= semantic_nested_form_for [:atlas, @report] do |f| %>
 	<%= hidden_field_tag "old_tag_marker", true %>
 	<div class = "control-group">
 			<%= f.input :event_name %>
@@ -57,8 +57,8 @@
 				google.maps.event.addListener(marker, 'drag', recenterCircle)
 				var lat = markerPoint.lat();
 				var lng = markerPoint.lng();
-				$("form").prepend("<input type = 'hidden' id = 'report_tag_attributes_lat' name = 'report[tag][lat]' value = " + lat + " >");
-				$("form").prepend("<input type = 'hidden' id = 'report_tag_attributes_lng' name = 'report[tag][lng]' value = " + lng + " >");
+				$("form").prepend("<input type = 'hidden' id = 'report_tag_attributes_lat' name = 'report[tag_attributes][lat]' value = " + lat + " >");
+				$("form").prepend("<input type = 'hidden' id = 'report_tag_attributes_lng' name = 'report[tag_attributes][lng]' value = " + lng + " >");
 				$("#report_tag_attributes_radius").on("click", function(){
 					newRadius = Number($(this).val());
 					markerCircle.setRadius(newRadius);

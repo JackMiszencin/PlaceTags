@@ -7,19 +7,19 @@ $(window).load ->
   $("#new_tag_form").hide()
 
   $("#new-type-form").hide()
-  $("#report_tag_attributes_title").attr("name", "hidden_report_tag_title")
-  $("#report_tag_attributes_lng").attr("name", "hidden_report_tag_lng")
-  $("#report_tag_attributes_lat").attr("name", "hidden_report_tag_lat")
-  $("#report_tag_attributes_radius").attr("name", "hidden_report_tag_radius")
-  $("#report_tag_attributes_type_attributes_label").attr("name", "new_type_was_hidden")
-  $("#report_tag_attributes_type_id").attr("name", "old_type_was_showing")
+  $("#report_tag_title").attr("name", "hidden_report_tag_title")
+  $("#report_tag_lng").attr("name", "hidden_report_tag_lng")
+  $("#report_tag_lat").attr("name", "hidden_report_tag_lat")
+  $("#report_tag_radius").attr("name", "hidden_report_tag_radius")
+  $("#report_tag_type_attributes_label").attr("name", "new_type_was_hidden")
+  $("#report_tag_type_id").attr("name", "old_type_was_showing")
 
-  $("#report_tag_attributes_title").attr("id", "hidden_report_tag_title")
-  $("#report_tag_attributes_lng").attr("id", "hidden_report_tag_lng")
-  $("#report_tag_attributes_lat").attr("id", "hidden_report_tag_lat")
-  $("#report_tag_attributes_radius").attr("id", "hidden_report_tag_radius")
-  $("#report_tag_attributes_type_attributes_label").attr("id", "new_type_was_hidden")
-  $("#report_tag_attributes_type_id").attr("id", "old_type_was_showing")
+  $("#report_tag_title").attr("id", "hidden_report_tag_title")
+  $("#report_tag_lng").attr("id", "hidden_report_tag_lng")
+  $("#report_tag_lat").attr("id", "hidden_report_tag_lat")
+  $("#report_tag_radius").attr("id", "hidden_report_tag_radius")
+  $("#report_tag_type_label").attr("id", "new_type_was_hidden")
+  $("#report_tag_type_id").attr("id", "old_type_was_showing")
 
 
   # THESE HAPPEN WHEN SWITHING FROM THE OLD TAG TO THE NEW TAG FORM
@@ -29,12 +29,12 @@ $(window).load ->
     $("#new_tag_form").show()
     $("#old_tag_marker").remove()
     $("#report_tag_id").attr("name", "hidden_tag_id")
-    $("#hidden_report_tag_title").attr("name", "report_tag_attributes_title")
-    $("#hidden_report_tag_lng").attr("name", "report_tag_attributes_lng")
-    $("#hidden_report_tag_lat").attr("name", "report_tag_attributes_lat")
-    $("#hidden_report_tag_radius").attr("name", "report_tag_attributes_radius")
-    $("#new_type_was_showing").attr("name", "report_tag_attributes_type_attributes_label")
-    $("#old_type_was_showing").attr("name", "report_tag_attributes_type_id")
+    $("#hidden_report_tag_title").attr("name", "report[tag_attributes][title]")
+    $("#hidden_report_tag_lng").attr("name", "report[tag_attributes][lng]")
+    $("#hidden_report_tag_lat").attr("name", "report[tag_attributes][lat]")
+    $("#hidden_report_tag_radius").attr("name", "report[tag_attributes][radius]")
+    $("#new_type_was_showing").attr("name", "report[tag_attributes][type_attributes][label]")
+    $("#old_type_was_showing").attr("name", "report[tag_attributes][type_id]")
 
     $("#report_tag_id").attr("id", "hidden_tag_id")
     $("#hidden_report_tag_title").attr("id", "report_tag_attributes_title")
@@ -51,6 +51,7 @@ $(window).load ->
     $("#new_tag_form").hide()
     $("#old_tag_input").show()
     $("form").prepend("<input id='old_tag_marker' name='old_tag_marker' type='hidden' value='true'>")
+    $("#hidden_tag_id").attr("name", "report[tag_id]")    
     $("#hidden_tag_id").attr("id", "report_tag_id")
     # MAKE ALL THE NEW TAG FIELDS UNTRACKABLE BY FORM
     $("#report_tag_attributes_title").attr("name", "hidden_report_tag_title")
@@ -79,7 +80,7 @@ $(window).load ->
     $("#old-type-form").hide()
     $("#new-type-form").show()
     $("#report_tag_attributes_type_id").attr("name", "old_type_was_hidden")
-    $("#new_type_was_hidden").attr("name", "report_tag_attributes_type_attributes_label")
+    $("#new_type_was_hidden").attr("name", "report[tag_attributes][type_attributes][label]")
 
     $("#report_tag_attributes_type_id").attr("id", "old_type_was_hidden")
     $("#new_type_was_hidden").attr("id", "report_tag_attributes_type_attributes_label")
@@ -88,7 +89,7 @@ $(window).load ->
     $("#old-type-form").show()
     $("#new-type-form").hide()
 
-    $("#old_type_was_hidden").attr("name", "report_tag_attributes_type_id")
+    $("#old_type_was_hidden").attr("name", "report[tag_attributes][type_id]")
     $("#report_tag_attributes_type_attributes_label").attr("name", "new_type_was_hidden")
 
     $("#old_type_was_hidden").attr("id", "report_tag_attributes_type_id")
