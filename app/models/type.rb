@@ -7,7 +7,6 @@ class Type < ActiveRecord::Base
 	after_create :set_default_radius
 	after_destroy :decrease_count
 	after_destroy :set_levels
-	validates_presence_of :label, :message => "All types must be given a label."
 	def set_default_radius
 		self.default_radius = self.average_radius
 		self.save

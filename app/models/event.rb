@@ -1,6 +1,6 @@
 class Event < ActiveRecord::Base
   belongs_to :atlas
-  has_and_belongs_to_many :reports
+  has_many :reports
   has_many :tags, :through => :reports
 
   def self.atlas(index)

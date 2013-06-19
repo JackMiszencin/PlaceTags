@@ -15,7 +15,6 @@ class ReportsController < ApplicationController
 	def create
 		@report = Report.new(params[:report])
 		@atlas = Atlas.find_by_id(params[:atlas_id])
-		@report.save
 		respond_to do |format|
 			if @report.save
 				format.html { redirect_to atlas_report_path(@atlas.id, @report) }
