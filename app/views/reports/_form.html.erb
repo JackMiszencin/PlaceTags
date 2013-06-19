@@ -90,7 +90,7 @@
 				<h3>New Tag</h3>
 				<%= f.semantic_fields_for @report.tag do |tag| %>
 					<%= tag.inputs do %>
-						<%= tag.input :title %>
+						<%= tag.input :title, :input_html => {:name => 'report[tag_attributes][title]'} %>
 						<div class = "control-group" id = "old-type-form">
 							<%= tag.input :type_id, :as => :select, :collection => @types.map{|t| [t.label, t.id]} %>
 							<div class = "box-button", id = "new-type-button" >Create a new type</div>
@@ -100,7 +100,7 @@
 						<div class = "control-group" id = "new-type-form">
 							<label>New Type</label>
 							<%= tag.semantic_fields_for @report.tag.type do |type| %>
-								<%= type.input :label %>
+								<%= type.input :label, :input_html => {:name => 'report[tag_attributes][type_attributes][label]'} %>
 									<div class = "box-button", id = "old-type-button">Use old type</div>
 									<br>
 									<br>

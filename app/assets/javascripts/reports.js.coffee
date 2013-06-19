@@ -11,7 +11,7 @@ $(window).load ->
   $("#report_tag_lng").attr("name", "hidden_report_tag_lng")
   $("#report_tag_lat").attr("name", "hidden_report_tag_lat")
   $("#report_tag_radius").attr("name", "hidden_report_tag_radius")
-  $("#report_tag_type_attributes_label").attr("name", "new_type_was_hidden")
+  $("#report_tag_type_label").attr("name", "new_type_was_hidden")
   $("#report_tag_type_id").attr("name", "old_type_was_showing")
 
   $("#report_tag_title").attr("id", "hidden_report_tag_title")
