@@ -5,7 +5,7 @@
 	</div>
 	<div class = "control-group" id="old_tag_input">
 		<div class = "controls">
-			<%= f.select :tag_id, :collection => @tags, :label => "Location" %>
+			<%= f.select :tag_id, @tags.map{|t| [t.title, t.id]} %>
 			<%= hidden_field_tag "report_atlas_id", @atlas.id, :name => "report[atlas_id]" %>
 			<div class = "box-button" id = "new_tag">Assign To New Tag</div>
 			<br><br><br>
@@ -86,40 +86,39 @@
 			<div id = "map-canvas"></div>
 		</div>
 	</div>
-		<div id="right-pane">
-				<h3>New Tag</h3>
-				<%= f.fields_for @report.tag do |tag| %>
-					<%= tag.text_field :title, :input_html => {:name => 'report[tag_attributes][title]'} %>
-					<%= tag.hidden_field :atlas_id, :input_html => {:name => 'report[tag_attributes][atlas_id]', :value => @atlas.id.to_s } %>
+	<div id="right-pane">
+			<h3>New Tag</h3>
+			<%= f.fields_for @report.tag do |tag| %>
+				<%= tag.text_field :title, :name => 'report[tag_attributes][title]' %>
+				<%= tag.hidden_field :atlas_id, :name => 'report[tag_attributes][atlas_id]', :value => @atlas.id.to_s %>
 
-						<div class = "control-group" id = "old-type-form">
-							<%= tag.select :type_id, :collection => @types.map{|t| [t.label, t.id]} %>
-							<div class = "box-button", id = "new-type-button" >Create a new type</div>
-							<br>
-							<br>
-						</div>
-						<div class = "control-group" id = "new-type-form">
-							<label>New Type</label>
-							<%= tag.fields_for @report.tag.type do |type| %>
-								<%= type.text_field :label, :input_html => {:name => 'report[tag_attributes][type_attributes][label]'} %>
-								<%= type.hidden_field :atlas_id, :input_html => {:name => 'report[tag_attributes][type_attributes][atlas_id]', :value => @atlas.id.to_s } %>		
-									<div class = "box-button", id = "old-type-button">Use old type</div>
-									<br>
-									<br>
-							<% end %>
-						</div>
+				<div class = "control-group" id = "old-type-form">
+					<%= tag.select :type_id, @types.map{|t| [t.label, t.id]} %>
+					<div class = "box-button", id = "new-type-button" >Create a new type</div>
+					<br>
+					<br>
+				</div>
+				<div class = "control-group" id = "new-type-form">
+					<label>New Type</label>
+					<%= tag.fields_for @report.tag.type do |type| %>
+						<%= type.text_field :label, :name => 'report[tag_attributes][type_attributes][label]' %>
+						<%= type.hidden_field :atlas_id, :name => 'report[tag_attributes][type_attributes][atlas_id]', :value => @atlas.id.to_s %>		
+						<div class = "box-button", id = "old-type-button">Use old type</div>
+						<br>
+						<br>
 					<% end %>
-					<%= tag.number_field :radius, :in => 0 ... 100000, :step => 0.5, :value => 0 %>
-				<% end %>
-				<br>
-				<br>
-				<div class = "box-button", id = "old_tag">Use existing tag</div>
-		</div>
-		<div>
-			<% @types.each do |t| %>
-			  <%= hidden_field_tag t.id, t.average_radius %>
+				</div>
+				<%= tag.number_field :radius, :in => 0 ... 100000, :step => 0.5, :value => 0, :name => "report[tag_attributes][radius]" %>
 			<% end %>
-		</div>	
+			<br>
+			<br>
+			<div class = "box-button", id = "old_tag">Use existing tag</div>
 	</div>
-	<%= f.submit "Create Report" %>
+	<div>
+		<% @types.each do |t| %>
+		  <%= hidden_field_tag t.id, t.average_radius %>
+		<% end %>
+	</div>	
+	</div>
+	<%= submit_tag "Create Report" %>
 <% end %>
