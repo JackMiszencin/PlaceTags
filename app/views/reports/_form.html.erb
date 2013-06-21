@@ -1,11 +1,11 @@
 <%= nested_form_for [:atlas, @report] do |f| %>
 	<%= hidden_field_tag "old_tag_marker", true %>
 	<div class = "control-group">
-			<%= f.text_field :event_name %>
+			<%= f.text_field :event_name, :required => true %>
 	</div>
 	<div class = "control-group" id="old_tag_input">
 		<div class = "controls">
-			<%= f.select :tag_id, @tags.map{|t| [t.title, t.id]} %>
+			<%= f.select :tag_id, @tags.map{|t| [t.title, t.id]}, :required => true %>
 			<%= hidden_field_tag "report_atlas_id", @atlas.id, :name => "report[atlas_id]" %>
 			<div class = "box-button" id = "new_tag">Assign To New Tag</div>
 			<br><br><br>
@@ -89,11 +89,11 @@
 	<div id="right-pane">
 			<h3>New Tag</h3>
 			<%= f.fields_for @report.tag do |tag| %>
-				<%= tag.text_field :title, :name => 'report[tag_attributes][title]' %>
+				<%= tag.text_field :title, :name => 'report[tag_attributes][title]', :required => true %>
 				<%= tag.hidden_field :atlas_id, :name => 'report[tag_attributes][atlas_id]', :value => @atlas.id.to_s %>
 
 				<div class = "control-group" id = "old-type-form">
-					<%= tag.select :type_id, @types.map{|t| [t.label, t.id]} %>
+					<%= tag.select :type_id, @types.map{|t| [t.label, t.id]}, :required => true %>
 					<div class = "box-button", id = "new-type-button" >Create a new type</div>
 					<br>
 					<br>
@@ -101,14 +101,14 @@
 				<div class = "control-group" id = "new-type-form">
 					<label>New Type</label>
 					<%= tag.fields_for @report.tag.type do |type| %>
-						<%= type.text_field :label, :name => 'report[tag_attributes][type_attributes][label]' %>
+						<%= type.text_field :label, :name => 'report[tag_attributes][type_attributes][label]', :required => true %>
 						<%= type.hidden_field :atlas_id, :name => 'report[tag_attributes][type_attributes][atlas_id]', :value => @atlas.id.to_s %>		
 						<div class = "box-button", id = "old-type-button">Use old type</div>
 						<br>
 						<br>
 					<% end %>
 				</div>
-				<%= tag.number_field :radius, :in => 0 ... 100000, :step => 0.5, :value => 0, :name => "report[tag_attributes][radius]" %>
+				<%= tag.number_field :radius, :in => 0 ... 100000, :step => 0.5, :value => 0, :name => "report[tag_attributes][radius]", :required => true %>
 			<% end %>
 			<br>
 			<br>
