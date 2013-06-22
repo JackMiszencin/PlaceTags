@@ -4,6 +4,7 @@ class Report < ActiveRecord::Base
 	belongs_to :event
   accepts_nested_attributes_for :tag
 	belongs_to :atlas
+  validates_presence_of :tag_id
   # attr_accessible :title, :body
   def format_date
     created_at.strftime("%B %d, %Y, %k:%M:%S %p")

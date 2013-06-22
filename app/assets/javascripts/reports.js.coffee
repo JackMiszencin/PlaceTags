@@ -62,6 +62,9 @@ $(window).load ->
     $("#hidden_report_tag_atlas_id").attr("id", "report_tag_atlas_id")
     $("#new_type_atlas_id_was_showing").attr("id", "report_tag_type_atlas_id")
 
+    if $("#report_tag_lng").val() == "" && $("#report_tag_lat").val() == ""
+      $("#submit_report").attr("type", "button")
+
 
 
   # THESE HAPPEN WHEN SWITCHING FROM THE NEW TAG TO THE OLD TAG FORM
@@ -103,6 +106,10 @@ $(window).load ->
     $("#report_tag_type_id").attr("id", "old_type_was_showing")
     $("#report_tag_type_atlas_id").attr("id", "new_type_atlas_id_was_showing")    
 
+    if $("#submit_report").attr("type") == "button"
+      $("#submit_report").attr("type", "submit")
+
+
 
 
   # THESE HAPPEN WHEN TOGGLING BETWEEN OLD AND NEW TYPE FIELDS
@@ -134,3 +141,13 @@ $(window).load ->
     $("#old_type_was_hidden").attr("id", "report_tag_type_id")
     $("#report_tag_type_label").attr("id", "new_type_was_hidden")
     $("#report_tag_type_atlas_id").attr("id", "new_type_atlas_id_was_hidden")
+
+    $("#new_report").submit ->
+      if $("#report_tag_lat").val() == "" && $("#report_tag_lng").val() == "" && $("#report_tag_lng").attr("name") == "report[tag_attributes][lng]" && $("#report_tag_lat").attr("name") == "report[tag_attributes][lat]"
+        $(this).preventDefault()
+        console.log("success")
+        return true
+
+  $("#submit_report").on "click", ->
+    if $("#submit_report").attr("type") == "button"
+      alert("Please pick a location on the map before submitting your report.")
