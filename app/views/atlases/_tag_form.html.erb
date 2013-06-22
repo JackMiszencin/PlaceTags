@@ -1,0 +1,8 @@
+				<%= realm.text_field :title, :name => 'atlas[realm_attributes][title]', :required => true %>
+				<%= realm.hidden_field :atlas_id, :name => 'atlas[realm_attributes][atlas_id]', :value => @atlas.id.to_s %>
+				<%= realm.hidden_field :lat, :name => 'atlas[realm_attributes][lat]' %>
+				<%= realm.hidden_field :lng, :name => 'atlas[realm_attributes][lng]' %>				
+				<%= realm.number_field :radius, :in => 0 ... 10000000, :step => 0.5, :value => 0, :name => "atlas[realm_attributes][radius]", :required => true %>
+				<%= realm.fields_for :type do |t| %>
+					<%= t.hidden_field :label, :value => "Atlas" %>
+				<% end %>

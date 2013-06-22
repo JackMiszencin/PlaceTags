@@ -13,7 +13,7 @@
 	</div>
 	<div id = "new_tag_form">
 	<script type="text/javascript">
-		var radiusDefault = Number($("#report_tag_attributes_radius").val());
+		var radiusDefault = Number($("#report_tag_radius").val());
 		function initialize() {
 		  var mapOptions = {
 		    center: new google.maps.LatLng(-34.397, 150.644),
@@ -30,7 +30,7 @@
 					animation: null
 				});
 				function addCircle(){
-					radiusDefault = Number($("#report_tag_attributes_radius").val());
+					radiusDefault = Number($("#report_tag_radius").val());
 					markerCircle = new google.maps.Circle({
 						map:map,
 						center:markerPoint,
@@ -40,8 +40,8 @@
 						strokeColor:"#EEEEEE",
 						strokeOpacity:1.0
 					});
-					$("#report_tag_attributes_type_id").on('click', function(){
-						var typeId = String($("#report_tag_attributes_type_id").val());
+					$("#report_tag_type_id").on('click', function(){
+						var typeId = String($("#report_tag_type_id").val());
 						typeId = "#" + typeId;
 						markerCircle.setRadius(Number($(typeId).val()))
 					});
@@ -51,31 +51,31 @@
 				function recenterCircle(){
 					var newLatLng = marker.getPosition();
 					markerCircle.setCenter(newLatLng);
-					$("#report_tag_attributes_lat").val(newLatLng.lat());
-					$("#report_tag_attributes_lng").val(newLatLng.lng());				
+					$("#report_tag_lat").val(newLatLng.lat());
+					$("#report_tag_lng").val(newLatLng.lng());				
 				};
 				google.maps.event.addListener(marker, 'drag', recenterCircle)
 				var lat = markerPoint.lat();
 				var lng = markerPoint.lng();
 				$('#report_tag_lat').val(lat);
-				$('report_tag_lng').val(lng);
+				$('#report_tag_lng').val(lng);
 				$("#submit_report").attr("type", "submit");
-				$("#report_tag_attributes_radius").on("click", function(){
+				$("#report_tag_radius").on("click", function(){
 					newRadius = Number($(this).val());
 					markerCircle.setRadius(newRadius);
 				});
-				$("#report_tag_attributes_radius").on("keyup", function(){
+				$("#report_tag_radius").on("keyup", function(){
 					rFeed = String($(this).val());
 					newRadius = Number(rFeed);
 					markerCircle.setRadius(newRadius);
 				});
 			};
 			google.maps.event.addListenerOnce(map, 'click', addMarker);
-			$("#report_tag_attributes_type_id").on('click', function(){
-				var typeId = String($("#report_tag_attributes_type_id").val());
+			$("#report_tag_type_id").on('click', function(){
+				var typeId = String($("#report_tag_type_id").val());
 				typeId = "#" + typeId;
 				radiusDefault = Number($(typeId).val());
-				$("#report_tag_attributes_radius").val(radiusDefault);
+				$("#report_tag_radius").val(radiusDefault);
 			});
 		};
 		var newTagButton = document.getElementById("new_tag");

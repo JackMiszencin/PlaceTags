@@ -14,6 +14,7 @@ class ReportsController < ApplicationController
 
 	def create
 		@report = Report.new(params[:report])
+		@report.event_check
 		@atlas = Atlas.find_by_id(params[:atlas_id])
 		respond_to do |format|
 			if @report.save
