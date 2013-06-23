@@ -12,20 +12,19 @@
 			<%= type.text_field :label, :required => true %>
 			<%= type.link_to_remove "Remove this type" %>
 		<% end %>
-		<%= render :partial => 'tag_map' %>
+		<%= render :partial => 'map' %>
 		<div id="right-pane">
-			<%=	f.fields_for :realm do |realm| %>
-				<%= realm.text_field :title, :name => 'atlas[realm_attributes][title]', :required => true %>
-				<%= realm.hidden_field :atlas_id, :name => 'atlas[realm_attributes][atlas_id]', :value => @atlas.id.to_s %>
-				<%= realm.hidden_field :lat, :name => 'atlas[realm_attributes][lat]' %>
-				<%= realm.hidden_field :lng, :name => 'atlas[realm_attributes][lng]' %>				
-				<%= realm.number_field :radius, :in => 0 ... 10000000, :step => 0.5, :value => 0, :name => "atlas[realm_attributes][radius]", :required => true %>
+			<%=	f.fields_for @atlas.realm do |realm| %>
+				<%= realm.text_field :title, :id => 'atlas_realm_title', :name => 'atlas[realm_attributes][title]', :required => true %>
+				<%= realm.hidden_field :lat, :id => 'atlas_realm_lat', :name => 'atlas[realm_attributes][lat]' %>
+				<%= realm.hidden_field :lng, :id => 'atlas_realm_lng', :name => 'atlas[realm_attributes][lng]' %>				
+				<%= realm.number_field :radius, :in => 0 ... 10000000, :step => 0.5, :value => 0, :id => 'atlas_realm_radius', :name => "atlas[realm_attributes][radius]", :required => true %>
 				<%= realm.fields_for :type do |t| %>
-					<%= t.hidden_field :label, :value => "Atlas" %>
+					<%= t.hidden_field :label, :id => 'atlas_realm_type_label', :name => 'atlas[realm_attributes][type_attributes][label]', :value => "Atlas" %>
 				<% end %>
 			<% end %>
 		</div>
 		<p><%= f.link_to_add "Add another type", :types %></p>
-		<%= f.submit "Create Atlas" %>
+		<%= f.submit "Create Atlas", :id => "submit_atlas" %>
 	<% end %>
 </div>

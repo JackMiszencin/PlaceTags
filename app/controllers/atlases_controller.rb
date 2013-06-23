@@ -5,10 +5,13 @@ class AtlasesController < ApplicationController
 	def new
 		@atlas = Atlas.new
 		@atlas.types.build
+    @atlas.build_realm
+    @atlas.realm.build_type
 	end
 	def create
 		@atlas = Atlas.new(params[:atlas])
     @atlas.save
+    @atlas.types.first.set_levels
     redirect_to atlas_path(@atlas)
 	end
 	def update

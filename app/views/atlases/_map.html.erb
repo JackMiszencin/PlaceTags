@@ -1,0 +1,66 @@
+		<script type="text/javascript">
+			var radiusDefault = Number($("#atlas_realm_attributes_radius").val());
+			function initialize() {
+			  var mapOptions = {
+			    center: new google.maps.LatLng(0,0),
+			    zoom: 15,
+			    mapTypeId: google.maps.MapTypeId.HYBRID
+			  };
+			  var map = new google.maps.Map(document.getElementById("map-canvas"), mapOptions);
+				function addMarker(event){
+					markerPoint = event.latLng
+					marker = new google.maps.Marker({
+						map:map,
+						draggable:true,
+						position:markerPoint,
+						animation: null
+					});
+					function addCircle(){
+						radiusDefault = Number($("#atlas_realm_radius").val());
+						markerCircle = new google.maps.Circle({
+							map:map,
+							center:markerPoint,
+							radius:radiusDefault,
+							fillColor:"#EEEEEE",
+							fillOpacity:0.5,
+							strokeColor:"#EEEEEE",
+							strokeOpacity:1.0
+						});
+					};
+					google.maps.event.addListenerOnce(map, 'click', addCircle);
+					google.maps.event.trigger(map, 'click')
+					function recenterCircle(){
+						var newLatLng = marker.getPosition();
+						markerCircle.setCenter(newLatLng);
+						$("#atlas_realm_lat").val(newLatLng.lat());
+						$("#atlas_realm_lng").val(newLatLng.lng());				
+					};
+					google.maps.event.addListener(marker, 'drag', recenterCircle)
+					var lat = markerPoint.lat();
+					var lng = markerPoint.lng();
+					$('#atlas_realm_lat').val(lat);
+					$('#atlas_realm_lng').val(lng);
+					$("#submit_atlas").attr("type", "submit");
+					$("#atlas_realm_radius").on("click", function(){
+						newRadius = Number($(this).val());
+						markerCircle.setRadius(newRadius);
+					});
+					$("#atlas_realm_radius").on("keyup", function(){
+						rFeed = String($(this).val());
+						newRadius = Number(rFeed);
+						markerCircle.setRadius(newRadius);
+					});
+				};
+				google.maps.event.addListenerOnce(map, 'click', addMarker);
+				google.maps.event.addListenerOnce(map, 'click', function(){
+					$("#submit_atlas").attr("type", "submit");
+				});
+			};
+			google.maps.event.addDomListenerOnce(window, 'load', initialize);
+		</script>
+
+		<div id = "center-pane">
+			<div id = "map-holder">
+				<div id = "map-canvas"></div>
+			</div>
+		</div>
