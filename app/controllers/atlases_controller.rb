@@ -4,6 +4,7 @@ class AtlasesController < ApplicationController
 	end
 	def new
 		@atlas = Atlas.new
+    @world = Atlas.where(:name => "World").first
 		@atlas.types.build
     @atlas.build_realm
     @atlas.realm.build_type

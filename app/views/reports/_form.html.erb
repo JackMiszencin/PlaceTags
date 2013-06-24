@@ -22,7 +22,7 @@
 			var SW = new google.maps.LatLng((realmLat - radiusDegrees), (realmLng - radiusDegrees));
 			var mapScope = new google.maps.LatLngBounds(SW, NE);
 		  var mapOptions = {
-		    center: new google.maps.LatLng(-34.397, 150.644),
+		    center: new google.maps.LatLng(realmLat, realmLng),
 		    zoom: 8,
 		    mapTypeId: google.maps.MapTypeId.HYBRID
 		  };

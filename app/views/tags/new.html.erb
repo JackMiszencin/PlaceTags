@@ -1,8 +1,15 @@
 <script type="text/javascript">
 	var radiusDefault = Number($("#tag_radius").val());
 	function initialize() {
+		var radiusDegrees = Number($("#hidden_realm_radius").val());
+		var realmLat = Number($("#hidden_realm_lat").val());
+		var realmLng = Number($("#hidden_realm_lng").val());
+		var NE = new google.maps.LatLng((realmLat + radiusDegrees), (realmLng + radiusDegrees));
+		var SW = new google.maps.LatLng((realmLat - radiusDegrees), (realmLng - radiusDegrees));
+		var mapScope = new google.maps.LatLngBounds(SW, NE);
+
 	  var mapOptions = {
-	    center: new google.maps.LatLng(-34.397, 150.644),
+	    center: new google.maps.LatLng(realmLat, realmLng),
 	    zoom: 8,
 	    mapTypeId: google.maps.MapTypeId.HYBRID
 	  };
@@ -15,6 +22,9 @@
 				position:markerPoint,
 				animation: null
 			});
+			$("#tag_lat").val(markerPoint.lat());
+			$("#tag_lng").val(markerPoint.lng());				
+			$("#submit_tag").attr("type", "submit")
 			function addCircle(){
 				radiusDefault = Number($("#tag_radius").val());
 				markerCircle = new google.maps.Circle({
@@ -43,8 +53,6 @@
 			google.maps.event.addListener(marker, 'drag', recenterCircle)
 			var lat = markerPoint.lat();
 			var lng = markerPoint.lng();
-			$("form").prepend("<input type = 'hidden' id = 'tag_lat' name = 'tag[lat]' value = " + lat + " >");
-			$("form").prepend("<input type = 'hidden' id = 'tag_lng' name = 'tag[lng]' value = " + lng + " >");
 			$("#tag_radius").on("click", function(){
 				newRadius = Number($(this).val());
 				markerCircle.setRadius(newRadius);
@@ -62,6 +70,7 @@
 			radiusDefault = Number($(typeId).val());
 			$("#tag_radius").val(radiusDefault);
 		});
+		map.fitBounds(mapScope);
 	};
 
 	google.maps.event.addDomListener(window, 'load', initialize);
@@ -72,31 +81,38 @@
 <div id = "map-holder">
 	<div id = "map-canvas"></div>
 </div>
-	<div id="center-pane">
-		<%= form_for [@atlas, @tag] do |f| %>
-			<div class = "control-group">
-				<%= f.label :title, :class => 'control-label' %>
-				<div class="controls">
-					<%= f.text_field :title, :class => 'text_field' %>
-				</div>
+<div id="center-pane">
+	<%= nested_form_for [@atlas, @tag] do |f| %>
+		<div class = "control-group">
+			<%= f.label :title, :class => 'control-label' %>
+			<div class="controls">
+				<%= f.text_field :title, :class => 'text_field', :required => true %>
 			</div>
-			<div class = "control-group">
-				<%= f.label :type, :class => 'control-label' %>
-				<div class="controls">
-					<%= collection_select(:tag, :type_id, @types, :id, :label, options={:prompt => "Select a type"}, :class => "type") %>
-				</div>
+		</div>
+		<div class = "control-group">
+			<%= f.label :type, :class => 'control-label' %>
+			<div class="controls">
+				<%= collection_select(:tag, :type_id, @types, :id, :label, options={:prompt => "Select a type"}, :class => "type", :required => true) %>
 			</div>
-			<div class = "control-group">
-				<%= f.label :radius, :class => 'control-label' %>
-				<div class="controls">
-					<%= f.number_field :radius, :in => 0 ... 100000, :step => 0.5, :value => 0, :class => 'number_field' %>
-				</div>
+		</div>
+		<div class = "control-group">
+			<%= f.label :radius, :class => 'control-label' %>
+			<div class="controls">
+				<%= f.number_field :radius, :in => 0 ... 100000, :step => 0.5, :value => 0, :class => 'number_field', :required => true %>
 			</div>
-			<%= f.submit "Create Tag" %>
-		<% end %>
-	</div>
-	<div>
-		<% @types.each do |t| %>
-		 <%= hidden_field_tag t.id, t.average_radius %>
-		<% end %>
-	</div>
+		</div>
+		<%= f.hidden_field :lat %>
+		<%= f.hidden_field :lng %>
+
+		<%= hidden_field_tag "hidden_realm_lat", @realm.lat %>
+		<%= hidden_field_tag "hidden_realm_lng", @realm.lng %>
+		<%= hidden_field_tag "hidden_realm_radius", (@realm.radius * @realm.deg_per_met) %>			
+
+		<%= f.submit "Create Tag", :id => "submit_tag" %>
+	<% end %>
+</div>
+<div>
+	<% @types.each do |t| %>
+	 <%= hidden_field_tag t.id, t.average_radius %>
+	<% end %>
+</div>

@@ -1,6 +1,4 @@
 class TagsController < ApplicationController
-
-
 	def index
 		@atlas = Atlas.find_by_id(params[:atlas_id])
 		if params[:search]
@@ -40,6 +38,7 @@ class TagsController < ApplicationController
   end
 	def new
 		@atlas = Atlas.find_by_id(params[:atlas_id])
+		@realm = @atlas.realm
 		@types = Type.atlas(@atlas.id)
 		@types.sort!{ |x, y| y.level <=> x.level}
 		@tag = Tag.new
