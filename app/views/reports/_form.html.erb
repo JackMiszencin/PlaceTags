@@ -15,6 +15,12 @@
 	<script type="text/javascript">
 		var radiusDefault = Number($("#report_tag_radius").val());
 		function initialize() {
+			var radiusDegrees = Number($("#hidden_realm_radius").val());
+			var realmLat = Number($("#hidden_realm_lat").val());
+			var realmLng = Number($("#hidden_realm_lng").val());
+			var NE = new google.maps.LatLng((realmLat + radiusDegrees), (realmLng + radiusDegrees));
+			var SW = new google.maps.LatLng((realmLat - radiusDegrees), (realmLng - radiusDegrees));
+			var mapScope = new google.maps.LatLngBounds(SW, NE);
 		  var mapOptions = {
 		    center: new google.maps.LatLng(-34.397, 150.644),
 		    zoom: 8,
@@ -77,6 +83,7 @@
 				radiusDefault = Number($(typeId).val());
 				$("#report_tag_radius").val(radiusDefault);
 			});
+			map.fitBounds(mapScope);
 		};
 		var newTagButton = document.getElementById("new_tag");
 		google.maps.event.addDomListenerOnce(newTagButton, 'click', initialize);
@@ -93,7 +100,10 @@
 				<%= tag.text_field :title, :name => 'report[tag_attributes][title]', :required => true %>
 				<%= tag.hidden_field :atlas_id, :name => 'report[tag_attributes][atlas_id]', :value => @atlas.id.to_s %>
 				<%= tag.hidden_field :lat, :name => 'report[tag_attributes][lat]' %>
-				<%= tag.hidden_field :lng, :name => 'report[tag_attributes][lng]' %>				
+				<%= tag.hidden_field :lng, :name => 'report[tag_attributes][lng]' %>
+				<%= hidden_field_tag "hidden_realm_lat", @realm.lat %>
+				<%= hidden_field_tag "hidden_realm_lng", @realm.lng %>
+				<%= hidden_field_tag "hidden_realm_radius", (@realm.radius * @realm.deg_per_met) %>			
 
 				<div class = "control-group" id = "old-type-form">
 					<%= tag.select :type_id, @types.map{|t| [t.label, t.id]}, :required => true %>
@@ -111,7 +121,7 @@
 						<br>
 					<% end %>
 				</div>
-				<%= tag.number_field :radius, :in => 0 ... 100000, :step => 0.5, :value => 0, :name => "report[tag_attributes][radius]", :required => true %>
+				<%= tag.number_field :radius, :in => 0 ... 1000000, :step => 0.5, :value => 0, :name => "report[tag_attributes][radius]", :required => true %>
 			<% end %>
 			<br>
 			<br>

@@ -4,12 +4,12 @@ class ReportsController < ApplicationController
 	end
 	def new
 		@atlas = Atlas.find(params[:atlas_id])
+		@realm = @atlas.realm
 		@report = Report.new
 		@tags = Tag.atlas(params[:atlas_id])
 		@types = Type.atlas(params[:atlas_id])
 		@report.build_tag
 		@report.tag.build_type
-
 	end
 
 	def create
