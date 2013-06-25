@@ -38,4 +38,16 @@ class Report < ActiveRecord::Base
     else
     end
   end
+
+  def case_search_score(c, roles, tag_ids)
+    score = 0
+    score += 1 if tag_ids.include? self.tag_id
+    score += 1 if c.tag_id == self.tag_id
+    roles.each do |r|
+      score += r.relevance_score
+    end
+    score += 1 if c.events.include? self.event
+    return score
+  end
+
 end
