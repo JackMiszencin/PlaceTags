@@ -7,6 +7,7 @@ class Tag < ActiveRecord::Base
   belongs_to :type
   has_many :roles, :foreign_key => :tag_id
   has_many :relatives, :through => :roles
+  has_many :cases
   accepts_nested_attributes_for :size
   accepts_nested_attributes_for :type
   attr_accessible :size_attributes, :lng, :lat, :title, :size_id, :radius, :id, :type_id, :type_attributes, :atlas_id

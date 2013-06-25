@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20130622215106) do
+ActiveRecord::Schema.define(:version => 20130625064129) do
 
   create_table "atlases", :force => true do |t|
     t.integer  "user_id"
@@ -21,6 +21,21 @@ ActiveRecord::Schema.define(:version => 20130622215106) do
     t.integer  "type_count", :default => 0
     t.integer  "realm_id"
   end
+
+  create_table "cases", :force => true do |t|
+    t.integer  "atlas_id"
+    t.integer  "tag_id"
+    t.string   "name"
+    t.datetime "created_at", :null => false
+    t.datetime "updated_at", :null => false
+  end
+
+  create_table "cases_events", :id => false, :force => true do |t|
+    t.integer "case_id"
+    t.integer "event_id"
+  end
+
+  add_index "cases_events", ["case_id", "event_id"], :name => "index_cases_events_on_case_id_and_event_id"
 
   create_table "events", :force => true do |t|
     t.integer  "atlas_id"
@@ -41,6 +56,7 @@ ActiveRecord::Schema.define(:version => 20130622215106) do
     t.integer  "tag_id"
     t.integer  "atlas_id"
     t.string   "event_name"
+    t.integer  "case_id"
   end
 
   create_table "roles", :force => true do |t|

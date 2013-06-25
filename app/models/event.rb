@@ -2,6 +2,7 @@ class Event < ActiveRecord::Base
   belongs_to :atlas
   has_many :reports
   has_many :tags, :through => :reports
+  has_and_belongs_to_many :cases
 
   def self.atlas(index)
   	where(:atlas_id => index)

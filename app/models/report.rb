@@ -2,6 +2,7 @@ class Report < ActiveRecord::Base
 	attr_accessible :event, :atlas_id, :event_name, :tag_id, :tag, :tag_attributes
 	belongs_to :tag
 	belongs_to :event
+  belongs_to :case
   accepts_nested_attributes_for :tag
 	belongs_to :atlas
 
