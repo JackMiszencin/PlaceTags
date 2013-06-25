@@ -7,6 +7,7 @@ PlaceTags::Application.routes.draw do
       resources :events
       resources :tags
       resources :reports
+      resources :cases
     end
     root :to => "atlases#index"
   end

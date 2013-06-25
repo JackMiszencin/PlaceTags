@@ -19,13 +19,19 @@ class Case < ActiveRecord::Base
   	self.save
   end
 
+  def add_reports(arry)
+  	arry.each do |a|
+  		self.add_report(Report.find_by_id(a.to_i))
+  	end
+  end
+
   def remove_report(report)
   	if self.reports.include? report
   		report.case_id = nil
   		report.save
   	end
   end
-  
+
   def conflicts
   	messages = []
   	reps = self.reports.includes(:tag)

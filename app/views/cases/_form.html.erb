@@ -1,0 +1,10 @@
+<%= nested_form_for [@atlas, @case] do |f| %>
+	<%= hidden_field_tag "case_atlas_id", @atlas.id, :name => "case[atlas_id]" %>
+	<%= f.fields_for :reports do |r| %>
+		<% @reports.each do |report| %>
+			<%= check_box_tag "case_report_ids[]", report.id, false %>
+			<label><%= "#{report.event_name} at #{report.tag.title}" %></label>
+		<% end %>
+	<% end %>
+	<%= submit_tag "Create Case" %>
+<% end %>
