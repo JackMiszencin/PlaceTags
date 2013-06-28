@@ -11,8 +11,8 @@
 		<tbody>
 			<% @p_cases.each do |c| %>
 				<tr>
-					<td><%= c.name %></td>
-					<td><%= c.tag? ? c.tag.title : "Uncertain location" %></td>
+					<td><%= link_to c.name? ? c.name : "Unnamed Case " + c.id.to_s, atlas_case_path(@atlas, c) %></td>
+					<td><%= c.tag_id? ? c.tag.title : "Uncertain location" %></td>
 					<td><%= check_box_tag "case_ids[]", c.id, false %></td>
 				</tr>
 			<% end %>

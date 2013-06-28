@@ -15,23 +15,29 @@ class Case < ActiveRecord::Base
   end
 
   def merge_case(c)
+    c.destroy
     c.reports.each do |r|
+      puts "ALAKAZAM, BITCHES!"
       self.add_report(r)
     end
     self.save
-    c.destroy
+    puts "Dead case after: " + c.reports.length.to_s
+    puts "Live case after: " + self.reports.length.to_s
   end
 
   def merge_cases(arry)
     if arry != nil
+      puts "start"
       arry.each do |a|
-        self.merge_case(a)
+        puts "b"
+        self.merge_case(Case.find_by_id(a.to_i))
       end
     end
   end
 
   def add_report(report)
   	self.reports << report unless self.reports.include? report
+    report.save
  		self.events << report.event unless self.events.include? report.event
   	self.save
   end
