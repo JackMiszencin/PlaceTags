@@ -10,6 +10,7 @@ PlaceTags::Application.routes.draw do
       resources :cases
     end
     root :to => "atlases#index"
+    put '/merge_report', :controller => "cases", :action => "merge_report"
   end
   # The priority is based upon order of creation:
   # first created -> highest priority.

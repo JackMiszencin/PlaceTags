@@ -20,9 +20,11 @@ class Case < ActiveRecord::Base
   end
 
   def add_reports(arry)
-  	arry.each do |a|
-  		self.add_report(Report.find_by_id(a.to_i))
-  	end
+    if arry != nil
+    	arry.each do |a|
+    		self.add_report(Report.find_by_id(a.to_i))
+    	end
+    end
   end
 
   def remove_report(report)
@@ -62,11 +64,12 @@ class Case < ActiveRecord::Base
 
   def potential_reports
   	c = Case.includes(:events).find_by_id(self.id)
-  	reports = Report.includes(:event).where(:case_id => nil, :atlas_id => c.atlas_id)
+  	reports = Report.includes(:event, :tag).where(:case_id => nil, :atlas_id => c.atlas_id)
   	tag_ids = c.reports.collect{|r| r.tag_id}
     tag_ids = tag_ids.uniq! unless tag_ids.uniq! == nil
   	roles = Role.where(:relative_id => tag_ids, :tag_id => c.tag_id)
   	reports.sort{ |a,b| b.case_search_score(c, roles, tag_ids) <=> a.case_search_score(c, roles, tag_ids) }
+    return reports
   end
 
   def potential_cases
