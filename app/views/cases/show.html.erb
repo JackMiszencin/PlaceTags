@@ -1,7 +1,10 @@
 <h2><%= @case.name? ? @case.name : "Unnamed Case" %></h2>
-
+<div id = "left-pane">
+	<%= render :partial => "reports_table" %>
+</div>
 <div id = "center-pane">
 	<%= render :partial => "potential_reports" %>
 </div>
-</div id = "right-pane">
+<div id = "right-pane">
+	<%= render :partial => "potential_cases" %>
 </div>

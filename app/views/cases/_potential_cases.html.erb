@@ -1,0 +1,22 @@
+<%= nested_form_for [@atlas, @case], :action => "merge_report" do |f| %>
+	<table>
+		<thead>
+			<h4>Related cases: </h4>
+			<tr>
+				<th>Case Name</th>
+				<th>Tag Name</th>
+				<th>Merge?</th>
+			</tr>
+		</thead>
+		<tbody>
+			<% @p_cases.each do |c| %>
+				<tr>
+					<td><%= c.name %></td>
+					<td><%= c.tag? ? c.tag.title : "Uncertain location" %></td>
+					<td><%= check_box_tag "case_ids[]", c.id, false %></td>
+				</tr>
+			<% end %>
+		</tbody>
+	</table>
+	<%= submit_tag "Merge Cases" %>
+<% end %>

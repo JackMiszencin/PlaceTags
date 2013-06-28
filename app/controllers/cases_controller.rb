@@ -23,13 +23,17 @@ class CasesController < ApplicationController
 
 	def update
 		@case = Case.find_by_id(params[:id])
+		@atlas = Atlas.find_by_id(params[:atlas_id])
 		@case.add_reports(params["case_report_ids"])
-		redirect_to atlas_case_path(@case)
+		@case.remove_reports(params["remove_case_report_ids"])
+		@case.merge_cases(params["case_ids"])
+		redirect_to atlas_case_path(@atlas, @case)
 	end
 
 	def show
 		@atlas = Atlas.find_by_id(params[:atlas_id])
 		@case = Case.find_by_id(params[:id])
+		@reports = @case.reports
 		@p_reports = @case.potential_reports
 		@p_cases = @case.potential_cases
 	end

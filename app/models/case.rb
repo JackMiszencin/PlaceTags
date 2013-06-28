@@ -13,6 +13,23 @@ class Case < ActiveRecord::Base
   		r.save
   	end
   end
+
+  def merge_case(c)
+    c.reports.each do |r|
+      self.add_report(r)
+    end
+    self.save
+    c.destroy
+  end
+
+  def merge_cases(arry)
+    if arry != nil
+      arry.each do |a|
+        self.merge_case(a)
+      end
+    end
+  end
+
   def add_report(report)
   	self.reports << report unless self.reports.include? report
  		self.events << report.event unless self.events.include? report.event
@@ -32,6 +49,14 @@ class Case < ActiveRecord::Base
   		report.case_id = nil
   		report.save
   	end
+  end
+
+  def remove_reports(arry)
+    if arry != nil
+      arry.each do |a|
+        self.remove_report(Report.find_by_id(a.to_i))
+      end
+    end
   end
 
   def conflicts
