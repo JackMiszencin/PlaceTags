@@ -1,0 +1,21 @@
+<h2>All Cases</h2>
+<%= render :partial => "new_case_form" %>
+
+<table>
+	<thead>
+		<tr>
+			<th>Case</th>
+			<th># of Reports</th>
+			<th>Certain Location?</th>
+		</tr>
+	</thead>
+	<tbody>
+		<% @cases.each do |c| %>
+			<tr>
+				<td><%= link_to c.name, atlas_case_path(@atlas, c) %></td>
+				<td><%= c.reports.length.to_s %></td>
+				<td></td>
+			</tr>
+		<% end %>
+	</tbody>
+</table>

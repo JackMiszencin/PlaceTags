@@ -5,6 +5,7 @@ class Case < ActiveRecord::Base
 	belongs_to :atlas
 	has_and_belongs_to_many :events
 	before_destroy :clear_reports
+  after_save :get_precise_location
   # attr_accessible :title, :body
 
   def clear_reports
@@ -17,12 +18,9 @@ class Case < ActiveRecord::Base
   def merge_case(c)
     c.destroy
     c.reports.each do |r|
-      puts "ALAKAZAM, BITCHES!"
       self.add_report(r)
     end
     self.save
-    puts "Dead case after: " + c.reports.length.to_s
-    puts "Live case after: " + self.reports.length.to_s
   end
 
   def merge_cases(arry)
@@ -89,8 +87,38 @@ class Case < ActiveRecord::Base
   	else
   		tags = self.reports.collect{|r| r.tag }.sort{|a,b| a.area <=> b.area}
  			self.tag_id = tags.first.id unless tags == []
- 			self.save
+      Case.skip_callback(:save, :after, :get_precise_location)
+ 			  self.save
+      Case.set_callback(:save, :after, :get_precise_location)
   	end
+  end
+
+  def certainty_score
+    if !self.conflicted? && self.reports.length > 0
+      rel_arry = []
+      tag_arry = []
+      sum = 0
+      area_sum = 0
+      reps = self.reports.includes(:tag)
+      reps.each do |r|
+        if !tag_arry.include? r.tag
+          tag_arry << r.tag
+        end
+      end
+      for i in (0...tag_arry.length)
+        for c in ((i+1)...tag_arry.length)
+          t = tag_arry[i].get_type(tag_arry[c])
+          rel_arry << tag_arry[i].relevance(tag_arry[c], t)
+          sum += tag_arry[i].relevance(tag_arry[c], t)
+        end
+        area_sum += tag_arry[i].area
+      end
+      score = (sum/rel_arry.length) ** (rel_arry.length - 1) 
+      score = score * (self.tag.area / (area_sum/tag_arry.length)) if self.tag != nil
+      return score
+    else
+      return 0
+    end
   end
 
   def potential_reports

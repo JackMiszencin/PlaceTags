@@ -6,19 +6,40 @@ class CasesController < ApplicationController
 	end
 
 	def create
-		@case = Case.new(params[:case])
-		@case.save
-		@case.add_reports(params["case_report_ids"])
-		respond_to do |format|
-      if @case.save
-        format.html { redirect_to atlas_case_path(params[:atlas_id], @case.id), notice: 'Report was successfully updated.' }
-        format.json { render json: atlas_case_path(params[:atlas_id], @case.id), status: :created, location: @case }
-      else
-        format.html { render action: "new" }
-        format.json { render json: @case.errors, status: :unprocessable_entity }
-      end
-    end
+		if params[:case]
+			@case = Case.new(params[:case])
+			@case.atlas_id = params[:atlas_id]
+			@case.save
+			@case.add_reports(params["case_report_ids"])
+			respond_to do |format|
+	      if @case.save
+	        format.html { redirect_to atlas_case_path(params[:atlas_id], @case.id), notice: 'Report was successfully updated.' }
+	        format.json { render json: atlas_case_path(params[:atlas_id], @case.id), status: :created, location: @case }
+	      else
+	        format.html { render action: "new" }
+	        format.json { render json: @case.errors, status: :unprocessable_entity }
+	      end
+	    end
+	  else
+	  	@case = Case.new(params[:new_case])
+	  	@case.atlas_id = params[:atlas_id]
+	  	@case.save
+			respond_to do |format|
+	      if @case.save
+	        format.html { redirect_to atlas_case_path(params[:atlas_id], @case.id), notice: 'Report was successfully updated.' }
+	        format.json { render json: atlas_case_path(params[:atlas_id], @case.id), status: :created, location: @case }
+	      else
+	        format.html { render action: "new" }
+	        format.json { render json: @case.errors, status: :unprocessable_entity }
+	      end
+			end
+		end	  	
+	end
 
+	def index
+		@atlas = Atlas.find_by_id(params[:atlas_id])
+		@cases = @atlas.cases.includes(:reports)
+		@new_case = Case.new
 	end
 
 	def update

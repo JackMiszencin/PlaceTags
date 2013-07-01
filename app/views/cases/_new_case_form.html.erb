@@ -1,0 +1,6 @@
+<%= nested_form_for [@atlas, @new_case] do |f| %>
+	<h4>Create new case</h4>
+	<label>Name</label><br>
+	<%= f.text_field :name, :required => true %>
+	<%= submit_tag "Submit" %>
+<% end %>
