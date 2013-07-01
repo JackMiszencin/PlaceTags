@@ -97,12 +97,22 @@ class Case < ActiveRecord::Base
     if !self.conflicted? && self.reports.length > 0
       rel_arry = []
       tag_arry = []
+      parent_count = 0
       sum = 0
       area_sum = 0
-      reps = self.reports.includes(:tag)
-      reps.each do |r|
-        if !tag_arry.include? r.tag
-          tag_arry << r.tag
+      shared_area_sum = 0
+      self.get_precise_location
+      small_tag = self.tag
+      tag_ids = self.reports.collect{|r| r.tag_id}.uniq - [self.tag_id]
+      tags = Tag.find(tag_ids)
+      if tags.length == 0
+        return 0.0
+      end
+      tags.each do |t|
+        if small_tag.get_type(t) == "parent"
+          parent_count += 1
+        else
+          tag_arry << t
         end
       end
       for i in (0...tag_arry.length)
@@ -112,16 +122,21 @@ class Case < ActiveRecord::Base
           sum += tag_arry[i].relevance(tag_arry[c], t)
         end
         area_sum += tag_arry[i].area
+        type = small_tag.get_type(tag_arry[i])
+        shared_area_sum += small_tag.common_area(tag_arry[i], type)
       end
-      if tag_arry.length == 0 || rel_arry.length == 0 || area_sum == 0
-        return 0
+      shared_area_quotient = shared_area_sum/(small_tag.area * tag_arry.length)
+      if tag_arry.length == 0 && parent_count > 0
+        return 1.0
+      elsif tag_arry.length == 0 || rel_arry.length == 0 || area_sum == 0
+        return 0.0
       else
-        score = (sum/rel_arry.length) ** (rel_arry.length - 1) 
-        score = score * (self.tag.area / (area_sum/tag_arry.length)) if self.tag != nil
+        factor = (sum/rel_arry.length) ** [(rel_arry.length - 1), 1].max
+        score = factor * shared_area_quotient
         return score
       end
     else
-      return 0
+      return 0.0
     end
   end
 
@@ -135,6 +150,32 @@ class Case < ActiveRecord::Base
         role = Role.where(:tag_id => self.tag_id, :relative_id => t_id).first
         roles << role if role != nil
       end
+      score = 1.0
+      siblings = []
+      roles.each do |r|
+        if r.type == "parent"
+          score *= 1
+        else
+          siblings << r
+        end
+      end
+
+      for i in (0...siblings.length)
+        for c in ((i+1)...siblings.length)
+          t = siblings[i].get_type(tag_arry[c])
+          rel_arry << tag_arry[i].relevance(tag_arry[c], t)
+          sum += tag_arry[i].relevance(tag_arry[c], t)
+        end
+        area_sum += tag_arry[i].area
+      end
+      if tag_arry.length == 0 || rel_arry.length == 0 || area_sum == 0
+        return 0
+      else
+        score = (sum/rel_arry.length) ** (rel_arry.length - 1) 
+        score = score * (self.tag.area / (area_sum/tag_arry.length)) if self.tag != nil
+        return score
+      end
+
     else
       return 0
     end

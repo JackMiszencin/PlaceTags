@@ -21,17 +21,17 @@
 						<%= "" + c.conflicts.count.to_s + " conflicting tag sets" %>
 					<%- else %>
 						<%- if c.certainty_score <= 1.0 && c.certainty_score > 0.95 %>
-							<%= "Very high certainty: " + c.certainty_score.round(2).to_s %>						
+							<%= "Very high certainty: " + c.certainty_score.round(3).to_s %>						
 						<%- elsif c.certainty_score <= 0.95 && c.certainty_score > 0.75 %>
-							<%= "High certainty: " + c.certainty_score.round(2).to_s %>
+							<%= "High certainty: " + c.certainty_score.round(3).to_s %>
 						<%- elsif c.certainty_score <= 0.75 && c.certainty_score > 0.50 %>
-							<%= "Decent certainty: " + c.certainty_score.round(2).to_s %>
+							<%= "Decent certainty: " + c.certainty_score.round(3).to_s %>
 						<%- elsif c.certainty_score <= 0.50 && c.certainty_score > 0.25 %>
-							<%= "Low certainty: " + c.certainty_score.round(2).to_s %>
+							<%= "Low certainty: " + c.certainty_score.round(3).to_s %>
 						<%- elsif c.certainty_score <= 0.25 && c.certainty_score >= 0.0 %>
-							<%= "Negligible certainty: " + c.certainty_score.round(2).to_s %>
+							<%= "Negligible certainty: " + c.certainty_score.round(3).to_s %>
 						<%- else %>
-							<%= "Negligible certainty: " + c.certainty_score.round(2).to_s %>
+							<%= "Negligible certainty: " + c.certainty_score.round(3).to_s %>
 						<%- end %>
 					<%- end %>
 				</td>
