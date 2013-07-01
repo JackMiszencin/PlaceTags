@@ -1,5 +1,8 @@
+<%= link_to "View all place tags in this atlas", atlas_tags_path(@atlas) %><%= " | "%><%= link_to "View all events in this atlas", atlas_events_path(@atlas) %><%= " | "%><%= link_to "Create new report", new_atlas_report_path(@atlas) %><%=" | "%><%= link_to "Case Manager", atlas_cases_path(@atlas) %><%= " | "%><%= link_to "Atlas Dashboard", atlas_path(@atlas) %><%= " | "%><%= link_to "User Home", root_path %>
 <h2>All Cases</h2>
-<%= render :partial => "new_case_form" %>
+<div id = "right-pane">
+	<%= render :partial => "new_case_form" %>
+</div>
 
 <table>
 	<thead>
@@ -39,3 +42,4 @@
 		<% end %>
 	</tbody>
 </table>
+<br>

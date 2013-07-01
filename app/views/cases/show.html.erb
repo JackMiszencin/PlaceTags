@@ -1,10 +1,15 @@
-<h2><%= @case.name? ? @case.name : "Unnamed Case" %></h2>
-<div id = "left-pane">
-	<%= render :partial => "reports_table" %>
-</div>
-<div id = "center-pane">
-	<%= render :partial => "potential_reports" %>
-</div>
-<div id = "right-pane">
-	<%= render :partial => "potential_cases" %>
+<%= link_to "View all place tags in this atlas", atlas_tags_path(@atlas) %><%= " | "%><%= link_to "View all events in this atlas", atlas_events_path(@atlas) %><%= " | "%><%= link_to "Create new report", new_atlas_report_path(@atlas) %><%=" | "%><%= link_to "Case Manager", atlas_cases_path(@atlas) %><%= " | "%><%= link_to "Atlas Dashboard", atlas_path(@atlas) %><%= " | "%><%= link_to "User Home", root_path %>
+
+<div id = "wrapper">
+	<h2><%= @case.name? ? @case.name : "Unnamed Case" %></h2>
+	<div id = "left-pane">
+		<%= render :partial => "reports_table" %>
+	</div>
+	<div id = "center-pane">
+		<%= render :partial => "potential_reports" %>
+	</div>
+	<div id = "right-pane">
+		<%= render :partial => "potential_cases" %>
+	</div>
+	</div>
 </div>

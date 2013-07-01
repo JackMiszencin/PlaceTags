@@ -1,3 +1,5 @@
+<%= link_to "View all place tags in this atlas", atlas_tags_path(@atlas) %><%= " | "%><%= link_to "View all events in this atlas", atlas_events_path(@atlas) %><%= " | "%><%= link_to "Create new report", new_atlas_report_path(@atlas) %><%=" | "%><%= link_to "Case Manager", atlas_cases_path(@atlas) %><%= " | "%><%= link_to "Atlas Dashboard", atlas_path(@atlas) %><%= " | "%><%= link_to "User Home", root_path %>
+<h2><%= @atlas.name? ? @atlas.name : "Untitled Atlas" %></h2>
 <h3>Current Reports</h3>
 <table>
 	<thead>
@@ -19,4 +21,3 @@
 
 </table>
 <br>
-<%= link_to "View all place tags in this atlas", atlas_tags_path(@atlas) %><%= " | "%><%= link_to "View all events in this atlas", atlas_events_path(@atlas) %><%= " | "%><%= link_to "Create new report", new_atlas_report_path(@atlas) %><%= " | "%><%= link_to "User Home", root_path %>

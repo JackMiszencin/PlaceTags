@@ -3,6 +3,7 @@
 	<%= hidden_field_tag "lat" + count.to_s, t.lat %>
 	<%= hidden_field_tag "lng" + count.to_s, t.lng %>
 	<%= hidden_field_tag "radius" + count.to_s, t.radius %>
+	<%= hidden_field_tag "radius_deg" + count.to_s, (t.radius * t.deg_per_met) %>
 	<%= hidden_field_tag "title" + count.to_s, t.title %>
 	<%= hidden_field_tag "type" + count.to_s, t.type.label %>
 	<%- count += 1 %>

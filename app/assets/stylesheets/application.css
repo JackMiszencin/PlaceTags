@@ -44,7 +44,7 @@ a:hover {
 }
 #map-holder{
 	position: absolute;
-	top: 20px;
+	top: 40px;
 	left: 10px;
 	width: 400px;
 	height: 400px;
@@ -52,19 +52,19 @@ a:hover {
 #left-pane{
 	position: absolute;
 	left: 10px;
-	top: 80px;
+	top: 100px;
 	width: 455px;
 }
 #center-pane{
 	position: absolute;
 	left: 475px;
-	top: 80px;
+	top:100px;
 	width: 300px;
 }
 #right-pane{
 	position: absolute;
 	left: 800px;
-	top: 80px;
+	top: 100px;
 }
 #wide-middle{
 	position: absolute;
@@ -96,4 +96,14 @@ a:hover {
 	width:10px;
 	height:10px;
 	background-color: blue;
+}
+#bottom-pane{
+	position: absolute;
+	bottom: 0;
+	height: 20px;
+}
+#wrapper{
+	width: 100%;
+	height: auto;
+	overflow: auto;
 }

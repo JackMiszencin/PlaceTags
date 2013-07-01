@@ -19,18 +19,19 @@
 		for (var i=0; i<=tagCount; i++){
 			tagHash = {};
 			tagHash['lat'] = Number($("#lat" + String(i)).val());
-			if(tagHash['lat'] > highLat){
-				highLat = tagHash['lat'];
+			tagHash['radius_deg'] = Number($("#radius_deg" + String(i)).val());
+			if((tagHash['lat'] + tagHash['radius_deg']) > highLat){
+				highLat = tagHash['lat'] + tagHash['radius_deg'];
 			}
-			if(tagHash['lat'] < lowLat){
-				lowLat = tagHash['lat'];
+			if((tagHash['lat'] - tagHash['radius_deg']) < lowLat){
+				lowLat = tagHash['lat'] - tagHash['radius_deg'];
 			}
 			tagHash['lng'] = Number($("#lng" + String(i)).val());
-			if(tagHash['lng'] > highLng){
-				highLng = tagHash['lng'];
+			if((tagHash['lng'] + tagHash['radius_deg']) > highLng){
+				highLng = tagHash['lng'] + tagHash['radius_deg'];
 			}
-			if(tagHash['lng'] < highLng){
-				lowLng = tagHash['lng'];
+			if((tagHash['lng'] - tagHash['radius_deg']) < highLng){
+				lowLng = tagHash['lng'] - tagHash['radius_deg'];
 			}
 			console.log(highLat);
 			console.log(lowLat);
