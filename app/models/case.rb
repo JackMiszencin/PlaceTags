@@ -113,9 +113,28 @@ class Case < ActiveRecord::Base
         end
         area_sum += tag_arry[i].area
       end
-      score = (sum/rel_arry.length) ** (rel_arry.length - 1) 
-      score = score * (self.tag.area / (area_sum/tag_arry.length)) if self.tag != nil
-      return score
+      if tag_arry.length == 0 || rel_arry.length == 0 || area_sum == 0
+        return 0
+      else
+        score = (sum/rel_arry.length) ** (rel_arry.length - 1) 
+        score = score * (self.tag.area / (area_sum/tag_arry.length)) if self.tag != nil
+        return score
+      end
+    else
+      return 0
+    end
+  end
+
+  def certainty
+    if self.reports.length != 0
+      self.get_precise_location
+      t = self.tag
+      roles = []
+      tag_ids = self.reports.collect{|r| r.tag_id}.uniq - [self.tag_id]
+      tag_ids.each do |t_id|
+        role = Role.where(:tag_id => self.tag_id, :relative_id => t_id).first
+        roles << role if role != nil
+      end
     else
       return 0
     end

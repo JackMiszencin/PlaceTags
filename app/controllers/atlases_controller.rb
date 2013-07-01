@@ -1,6 +1,6 @@
 class AtlasesController < ApplicationController
 	def index
-		@atlases = Atlas.all
+		@atlases = Atlas.where(:user_id => current_user.id)
 	end
 	def new
 		@atlas = Atlas.new
