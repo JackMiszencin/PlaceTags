@@ -30,6 +30,9 @@ $(window).load ->
   $("#report_tag_atlas_id").attr("id", "hidden_report_tag_atlas_id")
   $("#report_tag_type_atlas_id").attr("id", "new_type_atlas_id_was_hidden")
 
+  $("#submit_report").attr("type", "button")
+
+
   # THESE HAPPEN WHEN SWITHING FROM THE OLD TAG TO THE NEW TAG FORM
 
   $("#new_tag").on "click", ->
@@ -64,7 +67,7 @@ $(window).load ->
 
     if $("#report_tag_lng").val() == "" && $("#report_tag_lat").val() == ""
       $("#submit_report").attr("type", "button")
-
+    else $("#submit_report").attr("type", "submit") if $("#submit_report").attr("type") is "button"
 
 
   # THESE HAPPEN WHEN SWITCHING FROM THE NEW TAG TO THE OLD TAG FORM
@@ -106,8 +109,9 @@ $(window).load ->
     $("#report_tag_type_id").attr("id", "old_type_was_showing")
     $("#report_tag_type_atlas_id").attr("id", "new_type_atlas_id_was_showing")    
 
-    if $("#submit_report").attr("type") == "button"
-      $("#submit_report").attr("type", "submit")
+    if $("#report_tag_id").val() == ""
+      $("#submit_report").attr("type", "button")
+    else $("#submit_report").attr("type", "submit") if $("#submit_report").attr("type") is "button"
 
 
 
@@ -148,6 +152,15 @@ $(window).load ->
         console.log("success")
         return true
 
+
   $("#submit_report").on "click", ->
-    if $("#submit_report").attr("type") == "button"
-      alert("Please pick a location on the map before submitting your report.")
+
+    alert("Please pick a location on the map before submitting your report.") if $("#submit_report").attr("type") == "button" && $("#report_tag_lat").attr("name") == "report[tag_attributes][lat]"
+    alert("Please choose a tag before creating your report.")  if $("#report_tag_id").attr("name") == "report[tag_id]" if $("#submit_report").attr("type") is "button" && $("#report_tag_id").attr("name") == "report[tag_id]"
+
+  $("#report_tag_id").on "click", ->
+    if $("report_tag_id").val() is ""
+      $("#submit_report").attr "type", "button"
+    else
+      $("#submit_report").attr "type", "submit"
+

@@ -103,18 +103,25 @@ class Case < ActiveRecord::Base
       shared_area_sum = 0
       self.get_precise_location
       small_tag = self.tag
-      tag_ids = self.reports.collect{|r| r.tag_id}.uniq - [self.tag_id]
+      tag_ids = self.reports.collect{|r| r.tag_id}.uniq
+      tags = Tag.find(tag_ids)
+      if tags.length == 1
+        return 1.0
+      end
+      tag_ids = tag_ids - [self.tag_id]
       tags = Tag.find(tag_ids)
       if tags.length == 0
         return 0.0
+      else
       end
       tags.each do |t|
-        if small_tag.get_type(t) == "parent"
+        if small_tag.get_type(t) == "parent" || small_tag.get_type(t) == "duplicate" || small_tag == t
           parent_count += 1
         else
           tag_arry << t
         end
       end
+      puts "Tag_Arry: " + tag_arry.length.to_s
       for i in (0...tag_arry.length)
         for c in ((i+1)...tag_arry.length)
           t = tag_arry[i].get_type(tag_arry[c])

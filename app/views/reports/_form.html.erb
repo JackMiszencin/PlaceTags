@@ -5,7 +5,7 @@
 	</div>
 	<div class = "control-group" id="old_tag_input">
 		<div class = "controls">
-			<%= f.select :tag_id, @tags.map{|t| [t.title, t.id]}, :required => true %>
+			<%= f.select :tag_id, @tags.map{|t| [t.title, t.id]}, :prompt => true, :required => true %>
 			<%= hidden_field_tag "report_atlas_id", @atlas.id, :name => "report[atlas_id]" %>
 			<div class = "box-button" id = "new_tag">Assign To New Tag</div>
 			<br><br><br>

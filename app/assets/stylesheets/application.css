@@ -52,19 +52,19 @@ a:hover {
 #left-pane{
 	position: absolute;
 	left: 10px;
-	top: 100px;
+	top: 120px;
 	width: 455px;
 }
 #center-pane{
 	position: absolute;
 	left: 475px;
-	top:100px;
+	top:120px;
 	width: 300px;
 }
 #right-pane{
 	position: absolute;
 	left: 800px;
-	top: 100px;
+	top: 120px;
 }
 #wide-middle{
 	position: absolute;

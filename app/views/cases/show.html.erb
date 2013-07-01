@@ -2,13 +2,42 @@
 
 <div id = "wrapper">
 	<h2><%= @case.name? ? @case.name : "Unnamed Case" %></h2>
+	<p>
+		<%- if @case.conflicted? %>
+			<%= "CONFLICTS: " + @case.conflicts.join(";   ") %>
+				
+		<%- else %>
+			<%- if @case.tag_id? %>
+				<%= "Most specific tag: " + @case.tag.title + " // "%>
+			<%- end  %>
+			<%- if @case.certainty_score <= 1.0 && @case.certainty_score > 0.95 %>
+				<%= "Very high certainty level: " + (@case.certainty_score*100).round(3).to_s + "%" %>						
+			<%- elsif @case.certainty_score <= 0.95 && @case.certainty_score > 0.75 %>
+				<%= "High certainty level: " + (@case.certainty_score*100).round(3).to_s + "%" %>
+			<%- elsif @case.certainty_score <= 0.75 && @case.certainty_score > 0.50 %>
+				<%= "Decent certainty level: " + (@case.certainty_score*100).round(3).to_s + "%" %>
+			<%- elsif @case.certainty_score <= 0.50 && @case.certainty_score > 0.25 %>
+				<%= "Low certainty level: " + (@case.certainty_score*100).round(3).to_s + "%" %>
+			<%- elsif @case.certainty_score <= 0.25 && @case.certainty_score >= 0.0 %>
+				<%= "Negligible certainty level: " + (@case.certainty_score*100).round(3).to_s + "%" %>
+			<%- else %>
+				<%= "Negligible certainty level: " + (@case.certainty_score*100).round(3).to_s + "%" %>
+			<%- end %>
+		<%- end %>
+	</p>
 	<div id = "left-pane">
+		<br>
+		<br>
 		<%= render :partial => "reports_table" %>
 	</div>
 	<div id = "center-pane">
+		<br>
+		<br>
 		<%= render :partial => "potential_reports" %>
 	</div>
 	<div id = "right-pane">
+		<br>
+		<br>
 		<%= render :partial => "potential_cases" %>
 	</div>
 	</div>
